@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+<h1></h1>
+<h1></h1>
+<h1></h1>
+<h1></h1>
+<h1></h1>
+    
+    <div id="div-user-info">
+        <p>                  Currently logged in as  {{ current_user.email  }}  </p>
+    </div>
+
+        <form name='create_new_account' class="borderedheaderbutton"   action="/create_new_account" method="post">
+            <button class="btn btn-primary" type="submit" value="Login">Create New Account</button>
+        </form>    
+
+    
+    <div id="cards-div">
+        <p id="cards-header">Account   has  {{  cards|length  }} cards </p>
+        <div class="table-responsive" id="cards-table">
+            <table class="table">
+                <thead >
+                    <tr>
+                        <th> stripe_card_id </th>
+                        <th> billingname </th>
+                        <th> balance </th>
+                        <th> spending_limit </th>
+                        <th> card_brand </th>
+                        <th>  last4 </th>
+                        <th>  city </th>
+                        <th>  email </th>
+                        <th>  phone</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    {% for card in cards %}
+                    <tr>
+    
+                    <td>
+                        <a href="/issuing/cards/{{ card.stripe_card_id }}">
+                        {{ card.stripe_card_id }}
+                        </a>
+                    </td>
+                    <td>{{ card.billingname }}</td>
+                    <td>{{ card.balance }}</td>
+                    <td>{{ card.spending_limit }}</td>
+                    <td>{{ card.card_brand }}</td>
+                    <td>{{ card.last4 }}</td>
+                    <td>{{ card.city }}</td>
+                    <td>{{ card.email }}</td>
+                    <td>{{ card.phone }}</td>
+                    <td>{{ card.card_type }}</td>
+                    </a>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {%  endblock %}

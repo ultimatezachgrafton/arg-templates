@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+
+<h3 style="margin-left:50px;">Today's Deals:</h3>
+
+  <div class="container">
+      
+        <div class="row">
+         <div class="col-md-4">
+             <a href="user_profile.html" class="custom-card">
+                <div class="card">
+                               
+      <legend> <img src="{{ url_for('static', filename='Chipotle-Logo.png') }}" width="95px" height="64px"></legend>
+                    <div class="card-body">
+                        <h5 class="card-title">Chipotle</h5>
+                        <h3 class="card-text">Free chips with all orders! Offer ends May 20</h3>
+                    </div>
+                </div>
+            </a>
+         </div>
+        
+
+         <div class="col-md-4">
+            <a href="" class="custom-card">
+                <div class="card">
+                             
+      <legend> <img src="/static/papamurphys-logo.jpeg" width="175px" height="64px"></legend>
+                    <div class="card-body">
+                     
+                        <h5 class="card-title">Papa Murphy's</h5>
+                        <h3 class="card-text">10% off all large pizzas! Offer ends June 11</h3>
+                    </div>
+                </div>
+            </a>
+        </div>    
+</div>
+        </div>
+        </div>   
+
+    </body>
+   <!-- #main --> 
+
+  </div>
+
+  {%  endblock  %}

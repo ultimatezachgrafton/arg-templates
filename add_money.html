@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+	<div id="login">
+		<form name='form-login' class="borderedheaderbutton"   action="/check_balance.html"  method="POST"    >
+		  <span class="fontawesome-user">CHECK BALANCE </span>
+			<input type="text" name="cardnumber" id="cardnumber" placeholder="Card Number">
+		  
+		  <input type="submit" value="Login" >
+		  <div class="card_footer">
+		</div>
+  		</form>
+	</div>
+
+{% endblock  %}

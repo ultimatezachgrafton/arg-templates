@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %} 
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  
+  <form class="new_account" method="POST" action="/new_account">
+    <h2 >Sign Up</h2>
+    Company <input type="text" name="company" >  <br>  
+    Email <input type="text" name="email" >  <br>
+    Phone <input type="text" name="phone" >  <br>
+    firstname <input type="text" name="firstname" >  <br>
+    lastname <input type="text" name="lastname" >  <br>
+    city <input type="text" name="city" >  <br>
+    line1 <input type="text" name="line1" >  <br>
+    line2 <input type="text" name="line2" >  <br>
+    postal_code <input type="text" name="postal_code" >  <br>
+    state <input type="text" name="state" >  <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}

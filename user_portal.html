@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+
+<div class="user-info">
+  <fieldset class="fieldset-left-align">
+    <legend>
+      <h3>Cardholder Information</h3>
+    </legend>
+    <!-- Name -->
+    <span class="card-span">
+      <label class="control-label" for="username">Name:</label>
+      Bryan Barton</span><br>
+    <span class="card-span">
+      <label class="control-label" for="username">Email:</label>
+      bryan@barton.com</span><br>
+    <span class="card-span">
+      <label class="control-label" for="username">Address:</label>
+      Address: 15 Rodeo Rd 20316</span><br>
+    <span class="card-span">
+      <label class="control-label" for="username">Telephone:</label>
+      Telephone: 777-777-7777</span><br>
+    <span class="card-span">
+      <label class="control-label" for="username">Channel Partner:</label>
+      Channel partner: Guillermo's
+    </span><br>
+    <!-- Card Number -->
+    <span class="card-span"><label class="control-label" for="card-number">Last Four Digits of Card
+        Number:</label>7777</span><br>
+    <!-- Amount -->
+    </span><br>
+
+    <label class="control-label" for="username">Current Balance:</label>
+    $17,770,707.77
+    </span><br>
+  </fieldset>
+</div>
+
+
+<div class="load-funds"><a href="user_load_money.html">
+    <h3>Load Funds</h3>
+  </a></div>
+
+<div class="transaction-table">
+  <div class="transaction-history">
+    <h3>Transaction History</h3>
+  </div>
+  <div class="table-responsive">
+    <table id="customers" class="table table-bordred table-striped">
+      <thead>
+        <th>Date</th>
+        <th>Transaction</th>
+        <th>Amount</th>
+        <th>Balance</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wed Nov 12 17:43:13 MSK 2014</td>
+          <td>Chipotle</td>
+          <td>- $356.61</td>
+          <td>$700.98</td>
+        </tr>
+        <tr>
+          <td>Wed Nov 13 12:41:13 MSK 2014</td>
+          <td>Firehouse Subs</td>
+          <td>- $2.00</td>
+          <td>$698.98</td>
+        </tr>
+        <tr>
+          <td>Wed Nov 15 07:43:13 MSK 2014</td>
+          <td>Smithsonian - Admission </td>
+          <td>+ $14.00</td>
+          <td>$712.98</td>
+        </tr>
+      </tbody>
+    </table>
+    </li>
+    </tbody>
+    </table>
+
+
+  </div>
+
+</div>
+</div>
+</div>
+
+{%  endblock %}

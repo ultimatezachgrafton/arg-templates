@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+
+    <div class="div-welcome"><h2>Welcome, Channel Partner</h2></div>
+    <div class="div-account-links">
+        <span class="span-account-links"><h3>Create New Account</h3></span>
+        <span class="span-all-accounts-links"><h3>View All User Accounts</h3></span>
+    </span>
+    </div>
+
+    <div class="search" id="user-search">
+        <input type="text" name="user-search" placeholder="Search...">
+    </div>
+
+    <div class="div-card-container">
+        <div class="row">
+         <div class="col-md-4">
+             <a href="channel_partner_user_profile.html" class="link-card"></a>
+                <div class="div-card" id="card-user">
+                    <div class="card-body">
+                        <h4 class="card-title"> {{ card.billingname }} </h4>
+                        <h5 class="card-text">Balance: ${{ card.balance }} </h5></div>
+                    <div class="card-footer"><p id="p-card-footer">Last updated {{ card.last_transaction_datetime }}</p>
+                    </div>
+                </div>
+            </a>
+         </div>
+    </div>
+        </div>
+        </div>   
+
+    </body>
+
+   <!-- #main --> 
+
+  </div>
+
+  {% endblock  %}
