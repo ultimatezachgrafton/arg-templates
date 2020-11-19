@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+<h1></h1>
+<h1></h1>
+<h1></h1>
+<h1></h1>
+<h1></h1>
+    
+    <div id="div-user-info">
+        <p>                  Currently logged in as (( current_user.email  ))  with ((  cpname  )) </p>
+    </div>
+
+    <form name='generate_cards' class="borderedheaderbutton"   action="/order_batch_of_cards"  method="POST"    >
+        Count <input type="text" name="count" >  <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Generate Cards </button>
+      <div class="card_footer">
+    </div>
+  </form>
+
+  <form name='add_funds_to_card' class="borderedheaderbutton"   action="/add_funds_to_card"  method="POST"    >
+    CARDNUMBER <input type="text" name="fullcardnumber" placeholder="Full Card Number"><br>
+    Add to Card <input type="text" name="amount" >  <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Add Funds to Card </button>
+    <div class="card_footer">
+</div>
+</form>
+
+  <form name='card-activate' class="borderedheaderbutton"   action="/activate_one_card"  method="POST"    >
+        
+          LAST 4 <input type="text" name="last4" placeholder="LAST 4"><br>
+          CARDNUMBER <input type="text" name="fullcardnumber" placeholder="Full Card Number"><br>
+          firstname  <input type="text" name="firstname" >  <br>
+          lastname   <input type="text" name="lastname" >  <br>
+          line1      <input type="text" name="line1" >  <br>
+          line2      <input type="text" name="line2" >  <br>
+          city       <input type="text" name="city" >  <br>
+          postal_code <input type="text" name="postal_code" >  <br>
+          state <input type="text" name="state" >  <br>
+          Email <input type="text" name="email" >  <br>
+          Phone <input type="text" name="phone" >  <br>
+          Amount Added to Card <input type="text" name="amount" >  <br>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Activate Existing Card </button>
+        <div class="card_footer">
+      </div>
+    </form>
+
+
+    <div id="accounts">
+        <p id="accounts-header">  Channel Partner (( cpname )) has  ((  accounts|length  )) accounts  </p>
+    </div>
+
+        <div class="table-responsive" id="accounts-table">
+            <table class="table">
+                <thead >
+                    <tr>
+                        <th>account_id</th>
+                        <th>created</th>
+                        <th>billingname</th>
+                        <th>phone</th>
+                        <th>email</th>
+                        <th>city</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account in accounts %}
+                    <tr>
+                    <td><a href="/issuing/cardholders/(( account.stripe_id ))"> (( account.account_id )) </a></td>
+                    <td>(( account.created ))</td>
+                    <td>(( account.billingname ))</td>
+                    <td>(( account.phone ))</td>
+                    <td>(( account.email ))</td>
+                    <td>(( account.cardholder_metadata ))</td>
+                    <td>(( account.city ))</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+  
+
+    {%  endblock %}

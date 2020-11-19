@@ -1,0 +1,80 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Generate Valued Customers
+{% endblock %}
+
+{% block styles %}
+((super()))
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  #submit {
+    text-align:center;
+    margin-right:125px;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    margin-right: 60px;
+  }
+
+  @media screen and (max-width: 780px) {
+    body {
+      background-image: url('static/img/gold-cascade-background - orig.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+		#register {
+			border:none;
+    }
+}
+</style>
+
+<div class="container">
+
+  <form id="generate_valued_customer" name="generate_valued_customer" class="generate_valued_customer" method="POST" action="/generate_valued_customer">
+    <h2>Generate Valued Customers </h2>
+    <p>Channel Partner Number $<input type="number" value="1" name="channelpartner" > </p>
+    <p>Start Number $<input type="number" value="30" name="startnumber" > </p>
+    <p>End Number $<input type="number" value="50" name="endnumber" > </p>
+    <p>Note $<input type="text" value="add detailed note here" name="cardnote" > </p>
+    <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}

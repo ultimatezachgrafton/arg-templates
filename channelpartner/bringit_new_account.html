@@ -1,0 +1,82 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %} 
+
+{% block styles %}
+((super()))
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  #submit {
+    text-align:center; 
+    margin-right:125px;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    margin-right: 60px;
+  }
+
+  @media screen and (max-width: 780px) {
+    body {
+      background-image: url('static/img/gold-cascade-background - orig.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+		#register {
+			border:none;
+    }
+}
+</style>
+
+<div class="container">
+  
+  <form id="register" name="bringitform" class="new_account" method="POST" action="/bringit_new_account">
+    <h2>BringIt Sign Up! </h2>
+    <p>Name <input type="text" value="Algerian Customer" name="billingname" > </p>
+    <p>Email <input type="text" value="algeriancustomer@gmail.com"  name="email" > </p>
+    <p>Phone <input type="text" value="+213659416884" name="phone" > </p>
+    <p>Date of birth <input type="text" value="01/01/1970" name="birthdate" > </p>
+    <p>Initial payment $<input type="text" value="20.00" name="initialpayment" > </p>
+    <p>Note $<input type="text" value="add detailed note here" name="paymentnote" > </p>
+    <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}

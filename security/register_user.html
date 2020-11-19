@@ -1,0 +1,92 @@
+{% extends "security/base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+{% include "security/_messages.html" %}
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  #submit {
+    text-align:center; 
+    margin-left:50px;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+
+  p {
+    margin-right: 60px;
+  }
+
+  label {
+    margin-right:15px;
+    font-weight:bold;
+  }
+
+  ul {
+    list-style: none;
+    display:flex;
+    flex-direction: row;
+    margin-top:20px;
+    justify-content: center;
+    margin-right:40px;
+    font-size:18px;
+  }
+
+  @media screen and (max-width: 780px) {
+    body {
+      background-image: url('static/img/gold-cascade-background - orig.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+		#register {
+			border:none;
+		}
+	}
+</style>
+
+<div id="register">
+  <h1>(( _('Register') ))</h1>
+
+<form action="(( url_for_security('register') ))" method="POST" name="register_user_form">
+  (( register_user_form.hidden_tag() ))
+  (( render_field_with_errors(register_user_form.email) ))
+  (( render_field_with_errors(register_user_form.password) ))
+  {% if register_user_form.password_confirm %}
+    (( render_field_with_errors(register_user_form.password_confirm) ))
+  {% endif %}
+  <div id="btn-register" style="text-align:center; margin-left:50px;">
+  (( render_field(register_user_form.submit) ))
+  </div>
+</form>
+</div>
+{% include "security/_menu.html" %}
+{% endblock %}

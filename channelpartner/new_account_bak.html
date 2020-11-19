@@ -1,0 +1,33 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %} 
+
+{% block styles %}
+((super()))
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  
+  <form class="new_account" method="POST" action="/new_account">
+    <h2 >Sign Up</h2>
+    customer firstname <input type="text" name="firstname" >  <br>
+    customer lastname <input type="text" name="lastname" >  <br>
+    address line1 <input type="text" name="line1" >  <br>
+    address line2 <input type="text" name="line2" >  <br>
+    city <input type="text" name="city" >  <br>
+    state <input type="text" name="state" >  <br>
+    postal_code <input type="text" name="postal_code" >  <br>
+    Email <input type="text" name="email" >  <br>
+    Phone <input type="text" name="phone" >  <br>
+    Date of Birth <input type="text" name="birthdate" >  <br>
+    Initial Payment  <input type="text" name="initialpayment" >  <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}

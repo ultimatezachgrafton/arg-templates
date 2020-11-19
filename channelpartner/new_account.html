@@ -1,0 +1,92 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %} 
+
+{% block styles %}
+((super()))
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  #submit {
+    text-align:center; 
+    margin-right:125px;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    margin-right: 60px;
+  }
+
+  @media screen and (max-width: 780px) {
+    body {
+      background-image: url('static/img/gold-cascade-background - orig.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+		#register {
+			border:none;
+    }
+}
+</style>
+
+<div class="container">
+  
+  <form id="register" class="new_account" method="POST" action="/create_new_account">
+    <h2>Sign Up</h2>
+    <p>Name <input type="text" value="John Dude" name="billingname" > </p>
+    <p>Address line 1 <input type="text" value="address1" name="line1" > </p>
+    <p>Address line 2 <input type="text" value="address2" name="line2" > </p>
+    <p>City <input type="text" value="Fresno"  name="city" > </p>
+    <p>State <input type="text" value="CA" name="state" ></p>
+    <p>Postal code <input type="text" value="95123" name="postal_code" > </p>
+    <p>Email <input type="text" value="dummy@email.com" name="email" > </p>
+    <p>Phone <input type="text" value="555-555-5555" name="phone" > </p>
+    <p>Date of birth <input type="text" value="01/01/1970" name="birthdate" > </p>
+      <label for="cardtype">Select Virtual or Physical:</label>
+      <select name="cardtype" id="cardtype">
+        <option value="virtual">Virtual</option>
+        <option value="physical">Physical</option>
+    </select>
+    <p>Initial payment $<input type="text" value="20.00" name="initialpayment" > </p>
+    <p>Channel Partner $<input type="number" value="1" name="channelpartner" > </p>
+    <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}

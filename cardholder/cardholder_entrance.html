@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+	<ul class=flashes>
+	{% for message in messages %}
+	<li>(( message ))</li>
+	{% endfor %}
+	</ul>
+{% endif %}
+{% endwith %}
+
+{% macro render_field_with_errors(field) %}
+  <p>
+    (( field.label )) (( field(**kwargs)|safe ))
+    {% if field.errors %}
+      <ul>
+      {% for error in field.errors %}
+        <li>(( error ))</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  </p>
+{% endmacro %}
+
+{% macro render_field(field) %}
+  <p>(( field(**kwargs)|safe ))</p>
+{% endmacro %}
+
+{% block content %}
+
+
+<style>
+
+	#body {
+	  background-image: url('static/img/gold-cascade-background.jpg');
+	  background-repeat: no-repeat;
+	  background-attachment: fixed;
+	  background-size: cover;
+	  height:550px;
+	  text-align: center;
+	}
+
+	#form-check-balance {
+		max-width:400px;
+		margin-top:0px;
+		padding-top:100px;
+		margin:auto;
+		text-align:right;
+		width:400px;
+		padding:15px;
+		border-top: 2px solid gold;
+		border-bottom: 2px solid gold;
+		border-radius:25px;
+		color: gold;
+		font-weight: bold;
+		padding-right:80px;
+  	}
+
+	#cardnumber {
+		padding-right:70px;
+	}
+
+	#expiration {
+		padding-right: 70px;
+	}
+
+	p {
+		text-align: center;
+		padding-top:10px;
+		padding-left:30px;
+	}
+
+	#btn {
+		background-color: gold;
+		text-align: center;
+		margin-top:10px;
+		margin-left: 30px;
+		padding:10px;
+		background-color: gold;
+		color:black;
+		font-size:15px;
+		border-radius:25px;
+		font-weight:bold;
+		width:100px;
+	}
+	
+	input {
+		color:black;
+	}
+
+	@media screen and (max-width: 780px) {
+		#form-check-balance {border:none;
+			margin:auto;
+			width:300px;
+		}
+	
+	}
+  
+  </style>
+
+	<div id="body" style="padding-top:100px;">
+		<!-- post cardholders credit card number to /check_balance  -->
+		<form id="form-check-balance" name='form-check-balance' action="/login_with_creditcard"  method="POST">
+		  {% if error %}
+			<p class=error><strong>Error:</strong> (( error ))
+		  {% endif %}
+		
+		<p>Enter last 4 digits of card number:</p>
+		<input type="text" name="cardnumber" id="cardnumber" placeholder="Card Number"><br>
+		<p>Expiration:</p>
+		<input type="text" name="expiration" id="expiration" placeholder="mm/yy">  <br>
+		<div id="btn-login" style="text-align:center; margin:auto;">
+			<input type="submit" id="btn" value="Login">
+		</div>
+		</form>
+	</div>
+
+{% endblock  %}

@@ -1,0 +1,94 @@
+{% extends "security/base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+{% include "security/_messages.html" %}
+
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    margin:0;
+    padding:0;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  p {
+    margin-right:50px;
+  }
+
+  #submit {
+    text-align: center;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  label {
+    margin-right:15px;
+    font-weight:bold;
+  }
+
+  ul {
+    list-style: none;
+    display:flex;
+    flex-direction: row;
+    margin-top:20px;
+    justify-content: center;
+    margin-right:40px;
+    font-size:18px;
+  }
+
+  a {
+    color:gold;
+  }
+
+  #link-forgot-password {
+    align-items: right;
+    text-align: right;
+  }
+
+</style>
+
+<h1>(( _('Register') ))</h1>
+  <div id="register">
+    <form action="(( url_for_security('register') ))" method="POST" name="register_user_form">
+      (( register_user_form.hidden_tag() ))
+      (( render_field_with_errors(register_user_form.email) ))
+      (( render_field_with_errors(register_user_form.password) ))
+      {% if register_user_form.password_confirm %}
+        (( render_field_with_errors(register_user_form.password_confirm) ))
+      {% endif %}
+      <div id="btn-register" style="text-align:center; margin-left:50px;">
+        (( render_field(register_user_form.submit) ))
+      </div>
+    </form>
+    
+    <ul>
+      {% if security.recoverable %}
+      <li><a id="link-forgot-password" href="(( url_for_security('forgot_password') ))">(( _('Forgot password') ))</a><br/></li>
+      {% endif %}
+      {% if security.confirmable %}
+      <li><a href="(( url_for_security('send_confirmation') ))">(( _('Confirm account') ))</a></li>
+      {% endif %}
+    </ul>
+</div>
+{% include "security/_menu.html" %}
+{% endblock %}
