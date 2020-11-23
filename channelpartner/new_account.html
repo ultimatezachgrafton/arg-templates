@@ -51,6 +51,10 @@ Sign Up
     margin-right: 60px;
   }
 
+  #selector, #label-select {
+    margin-right: 60px;
+  }
+
   @media screen and (max-width: 780px) {
     body {
       background-image: url('static/img/gold-cascade-background - orig.jpg');
@@ -78,8 +82,8 @@ Sign Up
     <p>Email <input type="text" value="dummy@email.com" name="email" > </p>
     <p>Phone <input type="text" value="555-555-5555" name="phone" > </p>
     <p>Date of birth <input type="text" value="01/01/1970" name="birthdate" > </p>
-      <label for="cardtype">Select Virtual or Physical:</label>
-      <select name="cardtype" id="cardtype">
+      <label id="label-select" for="cardtype">Select Virtual or Physical:</label>
+      <select id="selector" name="cardtype" id="cardtype">
         <option value="virtual">Virtual</option>
         <option value="physical">Physical</option>
     </select>

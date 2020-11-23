@@ -6,79 +6,81 @@
 <h1></h1>
 <h1></h1>
 <h1></h1>
-    
-    <div id="div-user-info">
-        <p>                  Currently logged in as  (( current_user.email  )) ,  channel partner (( current_user.channel_partner_id  ))</p>
-    </div>
+
+<div id="card-body" style="margin:50px 50px 10px 50px">
+    <h3> Currently logged in as (( current_user.email )) , channel partner (( current_user.channel_partner_id ))</h3>
+    <h4 id="cards-header">This account has (( cards|length )) cards </h4>
+</div>
 
 {% if current_user.channel_partner_id == 0 %}
+<div class="card-body" style="margin:25px 50px 0px 50px">
     <a href="/create_new_account" class="btn btn-primary" role="button">Create New Card</a>
     <a href="/show_recycling_bin" class="btn btn-primary" role="button">Show Recycling Bin</a>
     <a href="/channel_partner_accounts" class="btn btn-primary" role="button">Show Cards in Use</a>
-    <a href="/generate_valued_customer" class="btn btn-primary" role="button">Create Valued Customer Cards</a> <br> <br>
+    <a href="/generate_valued_customer" class="btn btn-primary" role="button">Create Valued Customer Cards</a>
+</div>
 {% endif %}
 
 {% if current_user.channel_partner_id == 2 %}
+<div class="card-body" style="margin:25px 50px 0px 50px">
     <a href="/bringit_new_account" class="btn btn-primary" role="button">Create New Bringit Card</a> <br> <br>
+</div>
 {% endif %}
 
+<div class="card-body" style="margin:25px 50px 10px 50px">
     <a href="/channel_partner_accounts?sortby=billingname" class="btn btn-primary" role="button">Sort by Billingname</a>
     <a href="/channel_partner_accounts?sortby=date" class="btn btn-primary" role="button">Sort by Date</a>
-    <a href="/channel_partner_accounts?sortby=spendlimit" class="btn btn-primary" role="button">Sort by spending limit</a> <br> <br>
+    <a href="/channel_partner_accounts?sortby=spendlimit" class="btn btn-primary" role="button">Sort by spending
+        limit</a>
+</div>
+<br> <br>
 
 
-    <div id="cards-div">
-        <p id="cards-header">Account   has  ((  cards|length  )) cards </p>
-        <div class="table-responsive" id="cards-table">
-            <table class="table">
-                <thead >
-                    <tr>
-                        <th> channelpartner </th>
-                        <th> cardtype </th>
-                        <th> status </th>
-                        <th> balance </th>
-                        <th> spendinglimit </th>
-                        <th>  last4 </th>
-                        <th>  Expiration </th>
-                        <th> card_id </th>
-                        <th> created </th>
-                        <th> billingname </th>
-                        <th>  email </th>
-                        <th>  phone</th>
-                        </tr>
-                </thead>
-                <tbody>
-                    {% for card in cards %}
-                    <tr>
-                    <td>(( card.channel_partner_id ))</td>
-                    <td>(( card.card_type ))</td>
-                    <td>(( card.status ))</td>
-                    <td>(( "${:,.2f}".format(card.balance/100)  ))</td>
-                    <td>(( "${:,.2f}".format(card.spending_limit_amount/100)  ))</td>
+<div id="cards-div">
+    <div class="table-responsive" id="cards-table" style="margin:10px 25px 10px 25px">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Card ID# </th>
+                    <th> Cardholder's Name </th>
+                    <th> Card type </th>
+                    <th> Status </th>
+                    <th> Spending limit </th>
+                    <th> Last 4 </th>
+                    <th> Expiration </th>
+                    <th> Date created </th>
+                    <th> Balance </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in cards %}
+                <tr>
                     <td>
-                            <a href="/issuing/cards/(( card.stripe_card_id ))">
-                        (( card.last4 ))
-                            </a>
-                    </td>
-                    <td>((card.exp_month))/((card.exp_year))</td>
-                        <td>
-                            <a href="/issuing/cards/(( card.stripe_card_id ))">
-                            (( card.card_id ))
-                            </a>
-                        </td>
-                        <td>
                         <a href="/issuing/cards/(( card.stripe_card_id ))">
-                        (( card.created ))
+                            (( card.card_id ))
                         </a>
                     </td>
                     <td>(( card.billingname ))</td>
-                    <td>(( card.email ))</td>
-                    <td>(( card.phone ))</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    <td>(( card.card_type ))</td>
+                    <td>(( card.status ))</td>
+                    <td>(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
+                    <td>
+                        <a href="/issuing/cards/(( card.stripe_card_id ))">
+                            (( card.last4 ))
+                        </a>
+                    </td>
+                    <td>((card.exp_month))/((card.exp_year))</td>
+                    <td>
+                        <a href="/issuing/cards/(( card.stripe_card_id ))">
+                            (( card.created ))
+                        </a>
+                    </td>
+                    <td>(( "${:,.2f}".format(card.balance/100) ))</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 
-    {%  endblock %}
+{%  endblock %}

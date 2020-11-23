@@ -2,53 +2,70 @@
 {% from 'bootstrap/utils.html' import render_flashed_messages %}
 {% block content %}
 
-<div class="user-info">
-  <fieldset class="fieldset-left-align">
-    <span class="card-span">
-      <label class="control-label" >Last 4:</label>((card.last4))
-    </span><br>
-    <span class="card-span">
-      <label class="expiration-label" >Expiration:</label>((card.exp_month))/((card.exp_year))
-    </span><br>
-    
-    <span class="card-span">
-      <label class="control-label" for="username">Issued:</label>
-      ((card.created))</span><br>
-    <span class="card-span">
-      <label class="control-label" for="username">Name:</label>
-      ((card.billingname))</span><br>
-    <span class="card-span">
-      <label class="control-label" for="username">Email:</label>
-      ((card.email))</span><br>
-    <span class="card-span">
-      <label class="control-label" for="username">Address:</label>
-      ((card.line1))</span><br>
-    <span class="card-span">
-      <label class="control-label" for="username">Telephone:</label>
-      ((card.phone))</span><br>
-      <span class="card-span">
-        <label class="control-label" for="username">Type:</label>
-        ((card.card_type))</span><br>
-      <span class="card-span">
-      <label class="control-label" for="username">Channel Partner:</label>
-      ((card.channel_partner_id))
-    </span><br>
+<div class="card mb-3" style="margin:25px 10px 10px 75px;">
+  <div class="card-body">
+    <h3 class="" style="margin:50px 0px 0px 0px"><label class="control-label" for="username">Welcome,
+        ((card.billingname))!</label></h3>
+    <h2 class="" style="margin:25px 0px 25px 0px"><label class="control-label" for="username">Current Balance:</label>
+      (("${:,.2f}".format(card.balance/100) ))
+      </span><br></h2>
 
-    <label class="control-label" for="username">Current Balance:</label>
-    (("${:,.2f}".format(card.balance/100)  ))
-    </span><br>
-  </fieldset>
+    <div class="user-info">
+      <fieldset class="fieldset-left-align">
+        <span class="card-span">
+          <label class="control-label">Last 4 Digits of Card: </label>((card.last4))
+        </span><br>
+        <span class="card-span">
+          <label class="expiration-label">Expiration: </label>((card.exp_month))/((card.exp_year))
+        </span><br>
+        <span class="card-span">
+          <label class="control-label" for="username">Issued:</label>
+          ((card.created))</span><br>
+
+        <!-- Retained here for reference
+          <span class="card-span">
+          <label class="control-label" for="username">Email:</label>
+          ((card.email))</span><br>
+        <span class="card-span">
+          <label class="control-label" for="username">Address:</label>
+          ((card.line1))</span><br>
+        <span class="card-span">
+          <label class="control-label" for="username">Telephone:</label>
+          ((card.phone))</span><br>
+        <span class="card-span">
+        <label class="control-label" for="username">Type:</label>
+          ((card.card_type))</span><br>
+        <span class="card-span">
+          <label class="control-label" for="username">Channel Partner:</label>
+          ((card.channel_partner_id))
+        </span><br> -->
+      </fieldset>
+    </div>
+  </div>
 </div>
 
-
-<div class="activity-table">
+<div class="activity-table" style="margin:10px 50px 10px 50px">
   <div class="activity-history">
     <h3>Activity History</h3>
   </div>
   <div class="table-responsive">
-    <table id="activity" class="table table-bordred table-striped">
+    <table id="activity" class="table">
       <thead>
-        <th>ActivityID</th>
+        <th>Date</th>
+        <th>Merchant Name</th>
+        <th>Amount</th>
+        <th>Balance</th>
+      </thead>
+      <tbody>
+        {% for activity in activities  %}
+        <tr>
+          <td>(( activity.date ))</td>
+          <td>(( activity.merchant_name ))</td>
+          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
+          <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
+
+          <!-- inside alert box
+          <th>ActivityID</th>
         <th>Date</th>
         <th>activitytype</th>
         <th>status</th>
@@ -57,25 +74,11 @@
         <th>City</th>
         <th>approved</th>
         <th>Amount</th>
-        <th>Balance</th>
-      </thead>
-      <tbody>
-        {% for activity in activities  %}
-        <tr>
-        <td>(( activity.activity_id ))</td>
-        <td>(( activity.date ))</td>
-        <td>(( activity.activity_type ))</td>
-        <td>(( activity.status ))</td>
-        <td>(( activity.merchant_name ))</td>
-        <td>(( activity.merchant_category ))</td>
-        <td>(( activity.merchant_city ))</td>
-        <td>(( activity.approved ))</td>
-        <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
-        <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
+        <th>Balance</th> -->
 
         </tr>
         {% endfor %}
-    </tbody>
+      </tbody>
     </table>
     </li>
     </tbody>

@@ -1,88 +1,75 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/utils.html' import render_flashed_messages %}
 {% block content %}
-<h1></h1>
-<h1></h1>
-<h1></h1>
-<h1></h1>
-<h1></h1>
-    
-    <div class="borderedheaderbutton">
-    <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Assign customer info and make initial payment</a> <br> <br>
-    <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder information only.</a> <br> <br>
 
-{#    <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for any card</a>#}
-    </div>
+<div id="card-body" style="margin:50px 50px 10px 50px">
+  <h2 class="" style="margin:10px 0px 0px 0px">Name: (( card.billingname )) </h2>
+  <h3 class="" style="margin:10px 0px 0px 0px">Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h3>
+  <h3 class="" style="margin:10px 0px 0px 0px">Email: (( card.email )) </h3>
+  <h3 class="" style="margin:10px 0px 0px 0px">Address: (( card.line1 )) </h3>
+  <h3 class="" style="margin:10px 0px 0px 0px">Telephone: (( card.phone )) </h3>
+  <h3 class="" style="margin:10px 0px 0px 0px">Channel Partner: (( card.channel_partner_id )) </h3>
+  <h3 class="" style="margin:10px 0px 0px 0px">Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))
+  </h3>
+  <div id="card-body" style="margin:10px 0px 10px 0px">
+    <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Make initial payment</a>
+    <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder
+      information</a>
+    {#    <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for any card</a>#}
+  </div>
+  <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
+</div>
 
-    <div id="div-user-info">
-        <p></p>
-        <p>Last Four Digits of Card Number: (( card.last4  )) (( card.status )) (( card.card_type)) </p>
-        <p>Name: (( card.billingname )) </p>
-        <p>Email: (( card.email ))   </p>
-        <p>Address: (( card.line1 ))  </p>
-        <p>Telephone: (( card.phone ))  </p>
-        <p>Channel Partner: (( card.channel_partner_id )) </p>
-        <p>Spendlimit: (( "${:,.2f}".format(card.spending_limit_amount/100) )) </p>
-        <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
-    </div>
+<form name='add-money' class="borderedheaderbutton" action="/add_money" method="POST"
+  style="margin:50px 50px 10px 50px">
+  <h1 id="h1-current-balance">Current balance: (( "${:,.2f}".format(card.balance/100) )) </h1>
+  <h3 id="last4"> <input type="hidden" name="last4" value=((card.last4))> </h3>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p>((message))</p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 
-        <form name='add-money' class="borderedheaderbutton"   action="/add_money" method="POST">
-            <h1 id="h1-current-balance">Current balance: (( "${:,.2f}".format(card.balance/100)  )) </h1>
-            <h3 id="last4">  <input type="hidden" name="last4"  value=((card.last4)) > </h3>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>((message))</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-            <h3 id="h1-current-balance">  Amount to Add $<input type="text" name="amount" > </h3>
-            <h4 id="payment-note">  Note for Payment $<input type="text" name="paymentnote" > </h4>
-            <button class="btn btn-primary" type="submit" value="add">Add Money</button>
-        </form>    
+  <h3 id="h1-current-balance"> Amount to add: $<input type="text" name="amount"> </h3>
+  <button class="btn btn-primary" type="submit" value="add">Add Money</button>
+</form>
 
 <div class="activity-table">
-  <div class="activity-history">
+  <div class="activity-history" style="margin:25px 50px 0px 50px">
     <h3>Activity History</h3>
   </div>
   <div class="table-responsive">
-    <table id="activity" class="table table-bordred table-striped">
+    <table id="activity" class="table" style="margin:10px 50px 10px 25px; max-width:90%;">
       <thead>
-        <th>ActivityID</th>
+        <th style="width:7%">ID</th>
         <th>Date</th>
-        <th>activitytype</th>
-        <th>status</th>
+        <th>Activity Type</th>
+        <th>Status</th>
         <th>Merchant Name</th>
-        <th>stripe_authorization_id</th>
-        <th>approved</th>
         <th>Amount</th>
         <th>Balance</th>
-        <th>Note</th>
       </thead>
       <tbody>
-{#      if activity.visible is  none #}
+        {#      if activity.visible is  none #}
         {% for activity in activities %}
         <tr>
-        <td>(( activity.activity_id ))</td>
-        <td>(( activity.date ))</td>
-        <td>(( activity.activity_type ))</td>
-        <td>(( activity.status ))</td>
-        <td>(( activity.merchant_name ))</td>
-        <td>(( activity.stripe_authorization_id ))</td>
-        <td>(( activity.approved ))</td>
-        <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
-        <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
-        <td>(( activity.note ))</td>
+          <td>(( activity.activity_id ))</td>
+          <td>(( activity.date ))</td>
+          <td>(( activity.activity_type ))</td>
+          <td>(( activity.status ))</td>
+          <td>(( activity.merchant_name ))</td>
+          <td>(( activity.approved ))</td>
+          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
+          <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
 
         </tr>
         {% endfor %}
-    </tbody>
+      </tbody>
     </table>
   </div>
-
-
-
 </div>
 
 
-    {%  endblock %}
+{%  endblock %}
