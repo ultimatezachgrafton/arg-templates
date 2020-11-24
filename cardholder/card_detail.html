@@ -2,15 +2,24 @@
 {% from 'bootstrap/utils.html' import render_flashed_messages %}
 {% block content %}
 
+<style>
+  h2, h3, h4 {
+    margin: 10px 0px 0px 0px
+  }
+  #input-amount {
+    width: 100px;
+  }
+</style>
+
 <div id="card-body" style="margin:50px 50px 10px 50px">
-  <h2 class="" style="margin:10px 0px 0px 0px">Name: (( card.billingname )) </h2>
-  <h3 class="" style="margin:10px 0px 0px 0px">Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h3>
-  <h3 class="" style="margin:10px 0px 0px 0px">Email: (( card.email )) </h3>
-  <h3 class="" style="margin:10px 0px 0px 0px">Address: (( card.line1 )) </h3>
-  <h3 class="" style="margin:10px 0px 0px 0px">Telephone: (( card.phone )) </h3>
-  <h3 class="" style="margin:10px 0px 0px 0px">Channel Partner: (( card.channel_partner_id )) </h3>
-  <h3 class="" style="margin:10px 0px 0px 0px">Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))
-  </h3>
+  <h3 class="">Name: (( card.billingname )) </h3>
+  <h4 class="">Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h4>
+  <h4 class="">Email: (( card.email )) </h4>
+  <h4 class="">Address: (( card.line1 )) </h4>
+  <h4 class="">Telephone: (( card.phone )) </h4>
+  <h4 class="">Channel Partner: (( card.channel_partner_id )) </h4>
+  <h4 class="">Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>
+
   <div id="card-body" style="margin:10px 0px 10px 0px">
     <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Make initial payment</a>
     <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder
@@ -32,7 +41,8 @@
   {% endif %}
   {% endwith %}
 
-  <h3 id="h1-current-balance"> Amount to add: $<input type="text" name="amount"> </h3>
+  <h3 id="h1-current-balance"> Amount to add: $<input id="input-amount" type="text" name="amount"> </h3>
+  <h4 id="payment-note"> Note: <input type="text" name="paymentnote"> </h4>
   <button class="btn btn-primary" type="submit" value="add">Add Money</button>
 </form>
 
@@ -50,6 +60,7 @@
         <th>Merchant Name</th>
         <th>Amount</th>
         <th>Balance</th>
+        <th>Note</th>
       </thead>
       <tbody>
         {#      if activity.visible is  none #}
@@ -63,7 +74,7 @@
           <td>(( activity.approved ))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
-
+          <td>(( activity.note ))</td>
         </tr>
         {% endfor %}
       </tbody>
