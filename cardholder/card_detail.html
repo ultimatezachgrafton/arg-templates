@@ -3,35 +3,64 @@
 {% block content %}
 
 <style>
-  h2, h3, h4 {
+  h2,
+  h3,
+  h4 {
     margin: 10px 0px 0px 0px
   }
+
   #input-amount {
     width: 100px;
+  }
+
+  .table {
+    margin: 10px 0px 0px 10px;
+    max-width: 95%;
+  }
+
+  .activity-history {
+    margin: 15px 0px 0px 25px;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    .th-full,
+    .td-full {
+      display: none;
+    }
+
+    .activity-history {
+      margin-left: 5px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .table {
+      margin: 0px 0px 0px 0px;
+    }
+
+    .th-med,
+    .td-med {
+      display: none;
+    }
   }
 </style>
 
 <div id="card-body" style="margin:50px 50px 10px 50px">
-  <h3 class="">Name: (( card.billingname )) </h3>
-  <h4 class="">Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h4>
-  <h4 class="">Email: (( card.email )) </h4>
-  <h4 class="">Address: (( card.line1 )) </h4>
-  <h4 class="">Telephone: (( card.phone )) </h4>
-  <h4 class="">Channel Partner: (( card.channel_partner_id )) </h4>
-  <h4 class="">Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>
+  <h3>Name: (( card.billingname )) </h3>
+  <h4>Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h4>
+  <h4>Email: (( card.email )) </h4>
+  <h4>Address: (( card.line1 )) </h4>
+  <h4>Telephone: (( card.phone )) </h4>
+  <h4>Channel Partner: (( card.channel_partner_id )) </h4>
+  <h4>Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>
 
-  <div id="card-body" style="margin:10px 0px 10px 0px">
-    <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Make initial payment</a>
-    <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder
-      information</a>
-    {#    <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for any card</a>#}
-  </div>
   <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
 </div>
 
 <form name='add-money' class="borderedheaderbutton" action="/add_money" method="POST"
-  style="margin:50px 50px 10px 50px">
-  <h1 id="h1-current-balance">Current balance: (( "${:,.2f}".format(card.balance/100) )) </h1>
+  style="margin:25px 50px 10px 50px">
+  <h3><b>Current balance: (( "${:,.2f}".format(card.balance/100) )) </b></h3>
   <h3 id="last4"> <input type="hidden" name="last4" value=((card.last4))> </h3>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -41,40 +70,49 @@
   {% endif %}
   {% endwith %}
 
-  <h3 id="h1-current-balance"> Amount to add: $<input id="input-amount" type="text" name="amount"> </h3>
+  <h3 id="h3-current-balance"> Amount to add: $<input id="input-amount" type="text" name="amount"> </h3>
   <h4 id="payment-note"> Note: <input type="text" name="paymentnote"> </h4>
-  <button class="btn btn-primary" type="submit" value="add">Add Money</button>
+  <button class="btn btn-primary" type="submit" value="add" style="margin-top:10px;">Add Money</button>
 </form>
+<div id="card-body" style="margin:10px 0px 10px 50px">
+  <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button" style="margin-top:10px">Make
+    initial payment</a>
+  <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button"
+    style="margin-top:10px;">Edit Cardholder
+    information</a>
+  {#    <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for any card</a>#}
+</div>
 
 <div class="activity-table">
-  <div class="activity-history" style="margin:25px 50px 0px 50px">
+  <div class="activity-history">
     <h3>Activity History</h3>
   </div>
   <div class="table-responsive">
-    <table id="activity" class="table" style="margin:10px 50px 10px 25px; max-width:90%;">
+    <table id="activity" class="table">
       <thead>
-        <th style="width:7%">ID</th>
+        <th class="th-full" style="width:7%">ID</th>
         <th>Date</th>
-        <th>Activity Type</th>
-        <th>Status</th>
-        <th>Merchant Name</th>
         <th>Amount</th>
+        <th class="th-full">Activity Type</th>
+        <th class="th-full">Status</th>
+        <th class="th-full">Merchant</th>
+        <th class="th-full">Approved</th>
         <th>Balance</th>
-        <th>Note</th>
+        <th class="th-med">Note</th>
       </thead>
       <tbody>
         {#      if activity.visible is  none #}
         {% for activity in activities %}
-        <tr>
-          <td>(( activity.activity_id ))</td>
+        <tr data-toggle="modal" data-target="#trModal">
+          <td class="td-full">(( activity.activity_id ))</td>
           <td>(( activity.date ))</td>
-          <td>(( activity.activity_type ))</td>
-          <td>(( activity.status ))</td>
-          <td>(( activity.merchant_name ))</td>
-          <td>(( activity.approved ))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
+          <td class="td-full">(( activity.activity_type ))</td>
+          <td class="td-full">(( activity.status ))</td>
+          <td class="td-full">(( activity.merchant_name ))</td>
+          <td class="td-full">(( activity.approved ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
-          <td>(( activity.note ))</td>
+          <td class="td-med">(( activity.note ))</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -82,5 +120,70 @@
   </div>
 </div>
 
+<div class="modal hide fade" id="trModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-title" id="modal-title">
+          Activity Details</div>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <span style="display:inline-block">Amount: <div id="modal-amount" style="display:inline-block"></div>
+        </span><br> <span style="display:inline-block"><b>Balance: </b>
+          <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
+        </span><br><br>
+        <span style="display:inline-block"> Date: <div id="modal-date" class="modal-title-line"
+          style="display:inline-block"></div></span>
+        <span style="display:inline-block">Transaction ID: <div class="modal-title-line" id="modal-activity-id"
+            style="display:inline-block"></div></span><br>
+        <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
+          </div></span><br>
+        <span style="display:inline-block">Status: <div id="modal-status" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block">Merchant: <div id="modal-merchant-name" style="display:inline-block">
+          </div>
+        </span><br>
+        <span style="display:inline-block">Approved: <div id="modal-approved" style="display:inline-block"></div>
+        </span><br><br>
+        <span style="display:inline-block">Note:
+          <div id="modal-note" style="display:inline-block;"></div>
+        </span><br>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+  document.getElementById("activity").addEventListener("click", (e) => {
+    const table = document.getElementsByTagName("table")[0];
+    const tbody = table.getElementsByTagName("tbody")[0];
+    e = e || window.event;
+    let data = [];
+    let target = e.srcElement || e.target;
+    while (target && target.nodeName !== "TR") {
+      console.log(target);
+      target = target.parentNode;
+    }
+    if (target) {
+      let cells = target.getElementsByTagName("td");
+      for (var i = 0; i < cells.length; i++) {
+        data.push(cells[i].innerHTML);
+      }
+      document.getElementById("modal-activity-id").innerHTML = cells[0].innerHTML;
+      document.getElementById("modal-date").innerHTML = cells[1].innerHTML;
+      document.getElementById("modal-amount").innerHTML = cells[2].innerHTML;
+      document.getElementById("modal-activity-type").innerHTML = cells[3].innerHTML;
+      document.getElementById("modal-status").innerHTML = cells[4].innerHTML;
+      document.getElementById("modal-merchant-name").innerHTML = cells[5].innerHTML;
+      document.getElementById("modal-approved").innerHTML = cells[6].innerHTML;
+      document.getElementById("modal-balance").innerHTML = cells[7].innerHTML;
+      document.getElementById("modal-note").innerHTML = cells[8].innerHTML;
+    };
+  });
+
+</script>
 
 {%  endblock %}

@@ -7,11 +7,47 @@
     margin: 25px 10px 10px 75px;
   }
 
+  .activity-table {
+    table-layout: fixed;
+    margin: 10px 50px 10px 50px;
+  }
+
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+  }
+
+  .td-hide {
+    display: none;
+  }
+
+  @media screen and (max-width: 1000px) {
+
+    .td-full,
+    .th-full {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+
+    .td-med,
+    .th-med {
+      display: none;
+    }
+  }
+
   @media screen and (max-width: 500px) {
     .card-body {
       margin: 0px 0px 0px 0px;
       text-align: center;
     }
+
+    .activity-table {
+      margin: 0px 5px 0px 5px;
+    }
+
   }
 </style>
 
@@ -35,69 +71,133 @@
           <label class="control-label" for="username">Issued:</label>
           ((card.created))</span><br>
 
-        <!-- Retained here for reference
+        <div>
           <span class="card-span">
-          <label class="control-label" for="username">Email:</label>
-          ((card.email))</span><br>
-        <span class="card-span">
-          <label class="control-label" for="username">Address:</label>
-          ((card.line1))</span><br>
-        <span class="card-span">
-          <label class="control-label" for="username">Telephone:</label>
-          ((card.phone))</span><br>
-        <span class="card-span">
-        <label class="control-label" for="username">Type:</label>
-          ((card.card_type))</span><br>
-        <span class="card-span">
-          <label class="control-label" for="username">Channel Partner:</label>
-          ((card.channel_partner_id))
-        </span><br> -->
+            <label class="control-label" for="username">Email:</label>
+            ((card.email))</span><br>
+          <span class="card-span">
+            <label class="control-label" for="username">Address:</label>
+            ((card.line1))</span><br>
+          <span class="card-span">
+            <label class="control-label" for="username">Telephone:</label>
+            ((card.phone))</span><br>
+          <span class="card-span">
+            <label class="control-label" for="username">Type:</label>
+            ((card.card_type))</span><br>
+          <span class="card-span">
+            <label class="control-label" for="username">Channel Partner:</label>
+            ((card.channel_partner_id))
+          </span>
+        </div>
+
       </fieldset>
     </div>
   </div>
 </div>
 
-<div class="activity-table" style="margin:10px 50px 10px 50px">
+<div class="activity-table">
   <div class="activity-history">
-    <h3>Activity History</h3>
+    <h3 style=>History - click row for details</h3>
   </div>
   <div class="table-responsive">
     <table id="activity" class="table">
       <thead>
         <th>Date</th>
-        <th>Merchant Name</th>
         <th>Amount</th>
         <th>Balance</th>
+        <th class="td-med">Merchant</th>
+        <th class="th-full">City</th>
+        <th class="th-med">Approved</th>
+
       </thead>
       <tbody>
         {% for activity in activities  %}
-        <tr>
+        <tr data-toggle="modal" data-target="#trModal">
           <td>(( activity.date ))</td>
-          <td>(( activity.merchant_name ))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
 
-          <!-- inside alert box
-          <th>ActivityID</th>
-        <th>Date</th>
-        <th>activitytype</th>
-        <th>status</th>
-        <th>Merchant Name</th>
-        <th>Category</th>
-        <th>City</th>
-        <th>approved</th>
-        <th>Amount</th>
-        <th>Balance</th> -->
-
+          <td class="td-med">(( activity.merchant_name ))</td>
+          <td class="td-hide"> (( activity.activity_id )) </td>
+          <td class="td-hide"> (( activity.activity_type )) </td>
+          <td class="td-hide"> (( activity.status )) </td>
+          <td class="td-hide"> (( activity.merchant_category )) </td>
+          <td class="td-full"> (( activity.merchant_city )) </td>
+          <td class="td-med"> (( activity.approved )) </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    </li>
-    </tbody>
-    </table>
+
   </div>
 </div>
 
+<div class="modal hide fade" id="trModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-title" id="modal-title" style="margin-left: 15px;">
+          Activity Details</div>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <span style="display:inline-block">Amount: <div id="modal-amount" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block"><b>Balance: </b>
+            <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
+          </span><br><br>
+          <span style="margin-right: 75px">
+            Date: <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
+          </span>
+          Transaction ID: <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
+          <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
+            </div></span><br>
+          <span style="display:inline-block">Status: <div id="modal-status" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block">Merchant: <div id="modal-merchant-name" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block">Merchant type: <div id="modal-merchant-type" style="display:inline-block">
+            </div></span><br>
+          <span style="display:inline-block">City: <div id="modal-merchant-city" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block">Approved: <div id="modal-approved" style="display:inline-block"></div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  document.getElementById("activity").addEventListener("click", (e) => {
+    const table = document.getElementsByTagName("table")[0];
+    const tbody = table.getElementsByTagName("tbody")[0];
+    e = e || window.event;
+    let data = [];
+    let target = e.srcElement || e.target;
+    while (target && target.nodeName !== "TR") {
+      target = target.parentNode;
+    }
+    if (target) {
+      let cells = target.getElementsByTagName("td");
+      for (var i = 0; i < cells.length; i++) {
+        data.push(cells[i].innerHTML);
+        console.log(cells[1]);
+      }
+      document.getElementById("modal-date").innerHTML = cells[0].innerHTML;
+      document.getElementById("modal-balance").innerHTML = cells[1].innerHTML;
+      document.getElementById("modal-amount").innerHTML = cells[2].innerHTML;
+      document.getElementById("modal-merchant-name").innerHTML = cells[3].innerHTML;
+      document.getElementById("modal-activity-id").innerHTML = cells[4].innerHTML;
+      document.getElementById("modal-activity-type").innerHTML = cells[5].innerHTML;
+      document.getElementById("modal-status").innerHTML = cells[6].innerHTML;
+      document.getElementById("modal-merchant-type").innerHTML = cells[7].innerHTML;
+      document.getElementById("modal-merchant-city").innerHTML = cells[8].innerHTML;
+      document.getElementById("modal-approved").innerHTML = cells[9].innerHTML;
+
+    };
+  })
+</script>
 
 {%  endblock %}

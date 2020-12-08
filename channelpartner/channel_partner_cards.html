@@ -1,11 +1,46 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/utils.html' import render_flashed_messages %}
 {% block content %}
-<h1></h1>
-<h1></h1>
-<h1></h1>
-<h1></h1>
-<h1></h1>
+
+<style>
+    .table-responsive {
+        margin: 10px 25px 10px 25px;
+    }
+
+    .td-hide, .th-hide {
+        display: none;
+    }
+
+    @media screen and (max-width: 900px) {
+        .table-responsive {
+            margin: 0px 0px 0px 0px;
+        }
+
+        .td-med, .th-med {
+            display:none;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        .table-responsive {
+            margin: 0px 0px 0px 0px;
+        }
+
+        .td-full, .th-full {
+            display:none;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .table-responsive {
+            margin: 0px 0px 0px 0px;
+        }
+
+        .td-sp, .th-sp {
+            display:none;
+        }
+    }
+</style>
 
 <div id="card-body" style="margin:50px 50px 10px 50px">
     <h3> Currently logged in as (( current_user.email )) , channel partner (( current_user.channel_partner_id ))</h3>
@@ -13,68 +48,75 @@
 </div>
 
 {% if current_user.channel_partner_id == 0 %}
-<div class="card-body" style="margin:25px 50px 0px 50px">
-    <a href="/create_new_account" class="btn btn-primary" role="button">Create New Card</a>
-    <a href="/show_recycling_bin" class="btn btn-primary" role="button">Show Recycling Bin</a>
-    <a href="/channel_partner_accounts" class="btn btn-primary" role="button">Show Cards in Use</a>
-    <a href="/generate_valued_customer" class="btn btn-primary" role="button">Create Valued Customer Cards</a>
+<div class="card-body" style="margin:25px 0px 0px 50px">
+    <a href="/create_new_account" class="btn btn-primary" role="button" style="margin-bottom:10px;">Create New Card</a>
+    <a href="/show_recycling_bin" class="btn btn-primary" role="button" style="margin-bottom:10px;">Show Recycling
+        Bin</a>
+    <a href="/channel_partner_accounts" class="btn btn-primary" role="button" style="margin-bottom:10px;">Show Cards in
+        Use</a>
+    <a href="/generate_valued_customer" class="btn btn-primary" role="button" style="margin-bottom:10px;">Create Valued
+        Customer Cards</a>
 </div>
 {% endif %}
 
 {% if current_user.channel_partner_id == 2 %}
-<div class="card-body" style="margin:25px 50px 0px 50px">
+<div class="card-body" style="margin:25px 0px 0px 50px">
     <a href="/bringit_new_account" class="btn btn-primary" role="button">Create New Bringit Card</a> <br> <br>
 </div>
 {% endif %}
 
-<div class="card-body" style="margin:25px 50px 10px 50px">
-    <a href="/channel_partner_accounts?sortby=billingname" class="btn btn-primary" role="button">Sort by Billingname</a>
-    <a href="/channel_partner_accounts?sortby=date" class="btn btn-primary" role="button">Sort by Date</a>
-    <a href="/channel_partner_accounts?sortby=spendlimit" class="btn btn-primary" role="button">Sort by spending
+<div class="card-body" style="margin:25px 0px 0px 50px">
+    <a href="/channel_partner_accounts?sortby=billingname" class="btn btn-primary" role="button"
+        style="margin-bottom:10px;">Sort by Billingname</a>
+    <a href="/channel_partner_accounts?sortby=date" class="btn btn-primary" role="button"
+        style="margin-bottom:10px;">Sort by Date</a>
+    <a href="/channel_partner_accounts?sortby=spendlimit" class="btn btn-primary" role="button"
+        style="margin-bottom:10px;">Sort by spending
         limit</a>
 </div>
 <br> <br>
 
 
 <div id="cards-div">
-    <div class="table-responsive" id="cards-table" style="margin:10px 25px 10px 25px">
+    <div class="table-responsive" id="cards-table">
         <table class="table">
             <thead>
                 <tr>
-                    <th> Card ID# </th>
-                    <th> Cardholder's Name </th>
-                    <th> Card type </th>
-                    <th> Status </th>
-                    <th> Spending limit </th>
-                    <th> Last 4 </th>
-                    <th> Expiration </th>
-                    <th> Date created </th>
+                    <th class="th-hide"> Card ID# </th>
+                    <th> ID </th>
+                    <th> Name </th>
+                    <th class="th-med"> Card type </th>
+                    <th class="th-med"> Status </th>
+                    <th class="td-sp"> Spending limit </th>
+                    <th class="th-full"> Date created </th>
+                    <th class="th-full"> Expiration </th>
                     <th> Balance </th>
                 </tr>
             </thead>
             <tbody>
                 {% for card in cards %}
                 <tr>
-                    <td>
+                    <td class="td-hide">
                         <a href="/issuing/cards/(( card.stripe_card_id ))">
                             (( card.card_id ))
                         </a>
                     </td>
-                    <td>(( card.billingname ))</td>
-                    <td>(( card.card_type ))</td>
-                    <td>(( card.status ))</td>
-                    <td>(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
                     <td>
                         <a href="/issuing/cards/(( card.stripe_card_id ))">
                             (( card.last4 ))
                         </a>
                     </td>
-                    <td>((card.exp_month))/((card.exp_year))</td>
-                    <td>
+                    <td>(( card.billingname ))</td>
+                    <td class="td-med">(( card.card_type ))</td>
+                    <td class="td-med">(( card.status ))</td>
+                    <td class="td-sp">(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
+
+                    <td class="td-full">
                         <a href="/issuing/cards/(( card.stripe_card_id ))">
                             (( card.created ))
                         </a>
                     </td>
+                    <td class="td-full">((card.exp_month))/((card.exp_year))</td>
                     <td>(( "${:,.2f}".format(card.balance/100) ))</td>
                 </tr>
                 {% endfor %}
