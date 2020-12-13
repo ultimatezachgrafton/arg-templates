@@ -50,7 +50,8 @@
   <h3>Name: (( card.billingname )) </h3>
   <h4>Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h4>
   <h4>Email: (( card.email )) </h4>
-  <h4>Address: (( card.line1 )) </h4>
+  <h4>Address: (( card.line1 )) </h4> 
+  <!-- ^^^ add line2, city, state, postal code -->
   <h4>Telephone: (( card.phone )) </h4>
   <h4>Channel Partner: (( card.channel_partner_id )) </h4>
   <h4>Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>

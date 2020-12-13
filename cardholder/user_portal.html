@@ -78,6 +78,8 @@
           <span class="card-span">
             <label class="control-label" for="username">Address:</label>
             ((card.line1))</span><br>
+
+          <!-- ^^^ add line2, city, state, postal code -->
           <span class="card-span">
             <label class="control-label" for="username">Telephone:</label>
             ((card.phone))</span><br>
@@ -113,7 +115,7 @@
       <tbody>
         {% for activity in activities  %}
         <tr data-toggle="modal" data-target="#trModal">
-          <td>(( activity.date ))</td>
+          <td id="td-date">(( activity.date ))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
 
@@ -139,36 +141,58 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <div class="modal-title" id="modal-title" style="margin-left: 15px;">
           Activity Details</div>
-        </div>
-        <div class="modal-body" id="modal-body">
-          <span style="display:inline-block">Amount: <div id="modal-amount" style="display:inline-block"></div>
-          </span><br>
-          <span style="display:inline-block"><b>Balance: </b>
-            <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
-          </span><br><br>
-          <span style="margin-right: 75px">
-            Date: <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
-          </span>
-          Transaction ID: <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
-          <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
-            </div></span><br>
-          <span style="display:inline-block">Status: <div id="modal-status" style="display:inline-block"></div>
-          </span><br>
-          <span style="display:inline-block">Merchant: <div id="modal-merchant-name" style="display:inline-block"></div>
-          </span><br>
-          <span style="display:inline-block">Merchant type: <div id="modal-merchant-type" style="display:inline-block">
-            </div></span><br>
-          <span style="display:inline-block">City: <div id="modal-merchant-city" style="display:inline-block"></div>
-          </span><br>
-          <span style="display:inline-block">Approved: <div id="modal-approved" style="display:inline-block"></div>
-          </span>
-        </div>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <span style="display:inline-block">Amount: <div id="modal-amount" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block"><b>Balance: </b>
+          <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
+        </span><br><br>
+        <span style="margin-right: 75px">
+          Date: <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
+        </span>
+        Transaction ID: <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
+        <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
+          </div></span><br>
+        <span style="display:inline-block">Status: <div id="modal-status" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block">Merchant: <div id="modal-merchant-name" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block">Merchant type: <div id="modal-merchant-type" style="display:inline-block">
+          </div></span><br>
+        <span style="display:inline-block">City: <div id="modal-merchant-city" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block">Approved: <div id="modal-approved" style="display:inline-block"></div>
+        </span>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 <script>
+
+  window.addEventListener("load", (e) => {
+    const table = document.getElementsByTagName("table")[0];
+    const tbody = table.getElementsByTagName("tbody")[0];
+    e = e || window.event;
+    let data = [];
+    let target = e.srcElement || e.target;
+    while (target && target.nodeName !== "TR") {
+      target = target.parentNode;
+    }
+    if (target) {
+      let cells = target.getElementsByTagName("td");
+      for (var i = 0; i < cells.length; i++) {
+        data.push(cells[i].innerHTML);
+        console.log(cells[1]);
+      }
+      document.getElementById("modal-date").innerHTML = cells[0].innerHTML;
+      document.getElementById("modal-balance").innerHTML = cells[1].innerHTML;
+
+    let d = formatDate(document.getElementById("td-date").innerHTML);
+    document.getElementById("td-date").innerHTML = d;
+  });
 
   document.getElementById("activity").addEventListener("click", (e) => {
     const table = document.getElementsByTagName("table")[0];
