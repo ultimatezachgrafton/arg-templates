@@ -1,7 +1,3 @@
-{% extends 'base.html' %}
-{% from 'bootstrap/utils.html' import render_flashed_messages %}
-{% block content %}
-
 <style>
   h2,
   h3,
@@ -46,15 +42,21 @@
   }
 </style>
 
+{% extends 'base.html' %}
+{% from 'bootstrap/utils.html' import render_flashed_messages %}
+{% block content %}
+
 <div id="card-body" style="margin:50px 50px 10px 50px">
   <h3>Name: (( card.billingname )) </h3>
   <h4>Card: (( card.last4 )) (( card.status )) (( card.card_type)) </h4>
   <h4>Email: (( card.email )) </h4>
-  <h4>Address: (( card.line1 )) </h4> 
+  <h4>Address: (( card.line1 )) (( card.line2 )) </h4>
+  <h4> (( card.city )) (( card.state )) (( card.postal_code )) </h4> 
   <!-- ^^^ add line2, city, state, postal code -->
   <h4>Telephone: (( card.phone )) </h4>
   <h4>Channel Partner: (( card.channel_partner_id )) </h4>
   <h4>Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>
+  <h4 style="display:none">Note: (( card.note )) </h4>
 
   <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
 </div>
@@ -89,17 +91,17 @@
     <h3>Activity History</h3>
   </div>
   <div class="table-responsive">
-    <table id="activity" class="table">
+    <table id="activity" class="table" style="table-layout:fixed;">
       <thead>
         <th class="th-full" style="width:7%">ID</th>
-        <th>Date</th>
-        <th>Amount</th>
-        <th class="th-full">Activity Type</th>
-        <th class="th-full">Status</th>
-        <th class="th-full">Merchant</th>
-        <th class="th-full">Approved</th>
-        <th>Balance</th>
-        <th class="th-med">Note</th>
+        <th style="width:13%">Date</th>
+        <th class="th-full" style="width:10%">Status</th>
+        <th class="th-full" style="width:15%">Merchant</th>
+        <th class="th-full" style="width:17%">Auth ID</th>
+        <th class="th-full" style="width:10%">Approved</th>
+        <th style="width:10%">Amount</th>
+        <th style="width:10%">Balance</th>
+        <th class="th-med" style="width:10%">Limit</th>
       </thead>
       <tbody>
         {#      if activity.visible is  none #}
@@ -107,13 +109,13 @@
         <tr data-toggle="modal" data-target="#trModal">
           <td class="td-full">(( activity.activity_id ))</td>
           <td>(( activity.date ))</td>
-          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
-          <td class="td-full">(( activity.activity_type ))</td>
           <td class="td-full">(( activity.status ))</td>
           <td class="td-full">(( activity.merchant_name ))</td>
+          <td class="td-full" style="overflow-wrap: break-word;">(( activity.stripe_authorization_id ))</td>
           <td class="td-full">(( activity.approved ))</td>
+          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
-          <td class="td-med">(( activity.note ))</td>
+          <td class="td-med">(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -133,12 +135,14 @@
         <span style="display:inline-block">Amount: <div id="modal-amount" style="display:inline-block"></div>
         </span><br> <span style="display:inline-block"><b>Balance: </b>
           <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
+        </span><br>
+        <span style="display:inline-block">Limit: <div id="modal-limit" style="display:inline-block"></div>
         </span><br><br>
         <span style="display:inline-block"> Date: <div id="modal-date" class="modal-title-line"
           style="display:inline-block"></div></span>
         <span style="display:inline-block">Transaction ID: <div class="modal-title-line" id="modal-activity-id"
             style="display:inline-block"></div></span><br>
-        <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
+        <span style="display:inline-block">Activity type: <div id="modal-auth-id" style="display:inline-block">
           </div></span><br>
         <span style="display:inline-block">Status: <div id="modal-status" style="display:inline-block"></div>
         </span><br>
@@ -175,13 +179,13 @@
       }
       document.getElementById("modal-activity-id").innerHTML = cells[0].innerHTML;
       document.getElementById("modal-date").innerHTML = cells[1].innerHTML;
-      document.getElementById("modal-amount").innerHTML = cells[2].innerHTML;
-      document.getElementById("modal-activity-type").innerHTML = cells[3].innerHTML;
-      document.getElementById("modal-status").innerHTML = cells[4].innerHTML;
-      document.getElementById("modal-merchant-name").innerHTML = cells[5].innerHTML;
-      document.getElementById("modal-approved").innerHTML = cells[6].innerHTML;
+      document.getElementById("modal-status").innerHTML = cells[2].innerHTML;
+      document.getElementById("modal-merchant-name").innerHTML = cells[3].innerHTML;
+      document.getElementById("modal-auth-id").innerHTML = cells[4].innerHTML;
+      document.getElementById("modal-approved").innerHTML = cells[5].innerHTML;
+      document.getElementById("modal-amount").innerHTML = cells[6].innerHTML;
       document.getElementById("modal-balance").innerHTML = cells[7].innerHTML;
-      document.getElementById("modal-note").innerHTML = cells[8].innerHTML;
+      document.getElementById("modal-limit").innerHTML = cells[8].innerHTML;
     };
   });
 

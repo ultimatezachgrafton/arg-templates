@@ -116,6 +116,7 @@
         {% for activity in activities  %}
         <tr data-toggle="modal" data-target="#trModal">
           <td id="td-date">(( activity.date ))</td>
+          <td style="display: none">((activity.date))<br>((activity.merchant_name))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
 
@@ -171,27 +172,12 @@
 </div>
 
 <script>
+  window.addEventListener("load", () => {
+    const t = document.getElementById("activity");
 
-  window.addEventListener("load", (e) => {
-    const table = document.getElementsByTagName("table")[0];
-    const tbody = table.getElementsByTagName("tbody")[0];
-    e = e || window.event;
-    let data = [];
-    let target = e.srcElement || e.target;
-    while (target && target.nodeName !== "TR") {
-      target = target.parentNode;
+    for (let i = 1; i < t.rows.length; i++) {
+      t.rows[i].cells[0].innerHTML = formatDate(t.rows[i].cells[0].innerHTML);
     }
-    if (target) {
-      let cells = target.getElementsByTagName("td");
-      for (var i = 0; i < cells.length; i++) {
-        data.push(cells[i].innerHTML);
-        console.log(cells[1]);
-      }
-      document.getElementById("modal-date").innerHTML = cells[0].innerHTML;
-      document.getElementById("modal-balance").innerHTML = cells[1].innerHTML;
-
-    let d = formatDate(document.getElementById("td-date").innerHTML);
-    document.getElementById("td-date").innerHTML = d;
   });
 
   document.getElementById("activity").addEventListener("click", (e) => {
@@ -205,7 +191,7 @@
     }
     if (target) {
       let cells = target.getElementsByTagName("td");
-      for (var i = 0; i < cells.length; i++) {
+      for (let i = 0; i < cells.length; i++) {
         data.push(cells[i].innerHTML);
         console.log(cells[1]);
       }
