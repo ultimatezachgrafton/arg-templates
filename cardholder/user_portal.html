@@ -22,6 +22,10 @@
     display: none;
   }
 
+  .tr-red {
+    background-color: red;
+  }
+
   @media screen and (max-width: 1000px) {
 
     .td-full,
@@ -56,7 +60,7 @@
     <h3 class="" style="margin:50px 0px 0px 0px"><label class="control-label" for="username">Welcome,
         ((card.billingname))!</label></h3>
     <h2 class="" style="margin:25px 0px 25px 0px"><label class="control-label" for="username">Current Balance:</label>
-      (("${:,.2f}".format(card.balance/100) ))
+      <span style="color:green; font-size: 22px;">(("${:,.2f}".format(card.balance/100) ))
       </span><br></h2>
 
     <div class="user-info">
@@ -79,7 +83,6 @@
             <label class="control-label" for="username">Address:</label>
             ((card.line1))</span><br>
 
-          <!-- ^^^ add line2, city, state, postal code -->
           <span class="card-span">
             <label class="control-label" for="username">Telephone:</label>
             ((card.phone))</span><br>
@@ -99,26 +102,24 @@
 
 <div class="activity-table">
   <div class="activity-history">
-    <h3 style=>History - click row for details</h3>
+    <h3 style=>History</h3>
   </div>
-  <div class="table-responsive">
-    <table id="activity" class="table">
+  <div class="table-sortable">
+    <table id="activity" class="table" data-sortable="true">
       <thead>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Balance</th>
-        <th class="td-med">Merchant</th>
-        <th class="th-full">City</th>
-        <th class="th-med">Approved</th>
-
+        <th data-sortable="true">Date</th>
+        <th data-sortable="true" class="td-med">Merchant</th>
+        <th data-sortable="true" class="th-full">City</th>
+        <th data-sortable="true" class="th-med">Approved</th>
+        <th data-sortable="true">Amount</th>
+        <th data-sortable="true">Balance</th>
+        <th data-sortable="true">Note</th>
       </thead>
       <tbody>
-        {% for activity in activities  %}
+        {% for activity in activities %}
         <tr data-toggle="modal" data-target="#trModal">
           <td id="td-date">(( activity.date ))</td>
           <td style="display: none">((activity.date))<br>((activity.merchant_name))</td>
-          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
-          <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
 
           <td class="td-med">(( activity.merchant_name ))</td>
           <td class="td-hide"> (( activity.activity_id )) </td>
@@ -127,6 +128,11 @@
           <td class="td-hide"> (( activity.merchant_category )) </td>
           <td class="td-full"> (( activity.merchant_city )) </td>
           <td class="td-med"> (( activity.approved )) </td>
+
+          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
+          <td>(( "${:,.2f}".format(activity.balance/100) ))</td>
+
+          <td class="td-med" style="overflow-wrap: break-word"> (( activity.note )) </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -149,9 +155,9 @@
         <span style="display:inline-block"><b>Balance: </b>
           <div id="modal-balance" style="display:inline-block; font-weight: bold;"></div>
         </span><br><br>
-        <span style="margin-right: 75px">
+        <span>
           Date: <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
-        </span>
+        </span><br>
         Transaction ID: <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
         <span style="display:inline-block">Activity type: <div id="modal-activity-type" style="display:inline-block">
           </div></span><br>
@@ -164,6 +170,8 @@
         <span style="display:inline-block">City: <div id="modal-merchant-city" style="display:inline-block"></div>
         </span><br>
         <span style="display:inline-block">Approved: <div id="modal-approved" style="display:inline-block"></div>
+        </span><br>
+        <span style="display:inline-block">Note: <div id="modal-note" style="display:inline-block"></div>
         </span>
       </div>
     </div>
@@ -193,21 +201,25 @@
       let cells = target.getElementsByTagName("td");
       for (let i = 0; i < cells.length; i++) {
         data.push(cells[i].innerHTML);
-        console.log(cells[1]);
       }
       document.getElementById("modal-date").innerHTML = cells[0].innerHTML;
-      document.getElementById("modal-balance").innerHTML = cells[1].innerHTML;
-      document.getElementById("modal-amount").innerHTML = cells[2].innerHTML;
-      document.getElementById("modal-merchant-name").innerHTML = cells[3].innerHTML;
-      document.getElementById("modal-activity-id").innerHTML = cells[4].innerHTML;
-      document.getElementById("modal-activity-type").innerHTML = cells[5].innerHTML;
-      document.getElementById("modal-status").innerHTML = cells[6].innerHTML;
-      document.getElementById("modal-merchant-type").innerHTML = cells[7].innerHTML;
-      document.getElementById("modal-merchant-city").innerHTML = cells[8].innerHTML;
-      document.getElementById("modal-approved").innerHTML = cells[9].innerHTML;
+      document.getElementById("modal-merchant-name").innerHTML = cells[2].innerHTML;
+
+      document.getElementById("modal-activity-id").innerHTML = cells[3].innerHTML;
+      document.getElementById("modal-activity-type").innerHTML = cells[4].innerHTML;
+      document.getElementById("modal-status").innerHTML = cells[5].innerHTML;
+
+      document.getElementById("modal-merchant-type").innerHTML = cells[6].innerHTML;
+      document.getElementById("modal-merchant-city").innerHTML = cells[7].innerHTML;
+      document.getElementById("modal-approved").innerHTML = cells[8].innerHTML;
+      
+      document.getElementById("modal-balance").innerHTML = cells[9].innerHTML;
+      document.getElementById("modal-amount").innerHTML = cells[10].innerHTML;
+
+      document.getElementById("modal-note").innerHTML = cells[11].innerHTML;
 
     };
   })
 </script>
 
-{%  endblock %}
+{% endblock %}
