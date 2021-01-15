@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <title>American River Gold</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="473x473" href="/static/img/river.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <!-- <link rel="stylesheet" href="/static/css/styles.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css">
+    <link rel="stylesheet" href="/static/Vuecare.html.css">
+</head>
+<body>
+    
+<div id="app">
+
+    <div class="nav-container">
+     <nav class="navbar navbar-expand-md navbar-dark">
+      <router-link class="navbar-brand" to="/" exact>
+        <img class="logo" src="/static/img/arg_logo.svg" alt="ARG"> AMERICAN RIVER GOLD 
+    </router-link>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+       <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+         <router-link to="/" exact class="nav-link">Home <span class="sr-only">(current)</span></router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/about" class="nav-link">About</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/customers" class="nav-link">customers</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/retailers" class="nav-link">retailers</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/merchants" class="nav-link">merchants</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/channelpartners" class="nav-link">channelpartners</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/cardholders" class="nav-link">cardholders</router-link>
+           </li>
+           </ul>
+      </div>
+     </nav>
+    </div>
+
+   <!-- Bind data from the Vue App, so it is available to the child components -->
+    <router-view >ROUTER COMPONENTS GO HERE </router-view>
+   
+    <footer>
+     <div class="container">
+      <div class="row">
+       <div class="col-12">
+        <p>  THIS IS THE FOOTER </p>
+       </div>
+      </div>
+     </div>
+    </footer>
+   </div>
+   
+   <!-- Templates. This would typically be separeted into its own template file -->
+   <template id="home">
+    <div id="mainpage_riverlogo_container"
+        style="background-image: url('/static/img/tower_bridge1.jpeg');"
+    >
+        <img class="img-fluid" 
+            src="/static/img/arg_logo_with_river.svg"
+            style="padding-left: 10%;padding-right: 10%;width: auto;margin: 0px;padding-top: 10em;max-width: 100%;">
+        <p class="text-center"
+            style="color: rgb(254,242,206);background-color: rgba(0,0,0,0.55);background-size: auto;font-size: 170%;background-position: center;">
+            Now accepting shoppers and retailers into our beta program!</p>
+        </div>
+
+        <img id="mainpage_customers_person_icon"
+        style="margin-left: 0px;margin-bottom: 10px;padding-left: 0px;margin-right: 0px;width: 300px;"
+        src="/static/img/b2c_discount.svg">
+    <h2 class="text-center" style="font-size: 28px;padding-top: 40px;">Discounts for Shoppers</h2>
+    <p class="text-center">Load money onto your card and spend it wherever MasterCard is accepted. And when
+        you shop at one of our&nbsp;<a href="#network">partner retailers</a>&nbsp;you get between 5% and 25%
+        cash back!</p>
+
+
+<div class="text-center" id="beta-signup"><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false"
+        aria-controls="collapse-1" href="#collapse-1" role="button">Learn More</a>
+    <div class="collapse" id="collapse-1">
+        <div class="d-flex justify-content-center">
+            <form style="min-width: 300px;" data-bss-recipient="01d9fd7e720edb915d781fa332cf361b"
+                data-bss-subject="Auto-Messge: New Sign Up for Beta"><input class="form-control" type="text"
+                    name="name" placeholder="Full Name" required=""><input class="form-control" type="email"
+                    placeholder="Email" name="email" required=""><input class="form-control" type="tel" name="phone"
+                    placeholder="Phone" required="">
+                <div class="form-group d-flex flex-column"><label style="margin-bottom: 0px;">I am a:</label>
+                    <div class="btn-group" role="group" name="shopper-btn"><button
+                            class="btn btn-primary border-white" type="button"
+                            style="background-color: rgb(4,15,130);" name="shopper-btn">Shopper</button><button
+                            class="btn btn-primary border-white shadow-none" type="button"
+                            style="background-color: rgb(231,180,27);" name="retailer-btn">Retailer</button></div>
+                    <input class="form-control" type="hidden" name="client type"><button class="btn btn-primary"
+                        type="submit" disabled="">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr style="padding: 0px;padding-left: 0px;padding-right: 0px;width: 90%;border-color: #222222;opacity: 0.43;">
+<div id="retailers" class="features-clean">
+    <div class="container" style="padding-top: 40px;">
+        <div class="text-center intro"><img id="mainpage_customers_person_icon"
+                style="margin-left: 0px;margin-bottom: 10px;padding-left: 0px;margin-right: 0px;width: 320px;"
+                src="/static/img/c2b_benefits_2.svg">
+            <h2 class="text-center" style="font-size: 26px;padding-top: 40px;">More Customers and Sales for
+                Retailers</h2>
+            <p class="text-center">Become an American River Gold Retail partner and tap into our great customer
+                base. Simply set the discount rate you want to offer for your store, and we will take care of
+                sending more customers your way.&nbsp; It is that easy!</p>
+        </div>
+    </div>
+</div>
+<div class="text-center" id="beta-signup"><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false"
+        aria-controls="collapse-1" href="#collapse-1" role="button">Learn More</a>
+    <div class="collapse" id="collapse-1">
+        <div class="d-flex justify-content-center">
+            <form style="min-width: 300px;" data-bss-recipient="01d9fd7e720edb915d781fa332cf361b"
+                data-bss-subject="Auto-Messge: New Sign Up for Beta"><input class="form-control" type="text"
+                    name="name" placeholder="Full Name" required=""><input class="form-control" type="email"
+                    placeholder="Email" name="email" required=""><input class="form-control" type="tel" name="phone"
+                    placeholder="Phone" required="">
+                <div class="form-group d-flex flex-column"><label style="margin-bottom: 0px;">I am a:</label>
+                    <div class="btn-group" role="group" name="shopper-btn"><button
+                            class="btn btn-primary border-white" type="button"
+                            style="background-color: rgb(4,15,130);" name="shopper-btn">Shopper</button><button
+                            class="btn btn-primary border-white shadow-none" type="button"
+                            style="background-color: rgb(231,180,27);" name="retailer-btn">Retailer</button></div>
+                    <input class="form-control" type="hidden" name="client type"><button class="btn btn-primary"
+                        type="submit" disabled="">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr style="padding: 0px;padding-left: 0px;padding-right: 0px;width: 90%;border-color: #222222;opacity: 0.43;">
+<div id="network" class="map-clean">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Explore our Retail Network</h2>
+        </div>
+        <div id="mainpage_retailnetworkmap" style="width: 100%;height: 300px;background-color: rgba(0,0,0,0.33);">
+        </div>
+        <div class="table-responsive text-center" style="width: 90%;margin: 5%;">
+            <table class="table">
+                <tbody id="partner-list">
+
+
+                    <tr location="papa_murphys">
+                        <td
+                            style="background-image: url('/static/img/papa_murphys_logo.jpeg');
+                            background-size: contain;background-repeat: no-repeat;width: 40%;background-position: center;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 1rem;">
+                                <li>2701 Del Paso Rd #150, Sacramento</li>
+                                <li>7832 Gerber Rd, Sacramento</li>
+                                <li>4819A, Granite Dr, Rocklin</li>
+                                <li>6456 Tupelo Dr suite a-2, Citrus Heights</li>
+                                <li>4340 Arden Way, Sacramento</li>
+                                <li><strong>15% Off</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+
+
+                    <tr location="vault_boards">
+                        <td
+                            style="background-image: url('/static/img/vault_logo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>227 G St, Davis</li>
+                                <li><strong>5% Off</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="copyland">
+                        <td
+                            style="background-image: url('/static/img/copyland_logo.jpg');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>231 G St #6, Davis</li>
+                                <li><strong>15% Off</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="cork_it">
+                        <td
+                            style="background-image: url('/static/img/cork_it_logo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>820 4th St, Davis</li>
+                                <li><strong>10% Off</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="tiger_bar">
+                        <td
+                            style="background-image: url('/static/img/tiger_logo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;background-color: #001e44;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>722 K St, Sacramento</li>
+                                <li><strong></strong><br></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="solomons">
+                        <td
+                            style="background-image: url('/static/img/solomons_logo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;background-color: rgba(0,30,68,0);">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>730 K St, Sacramento</li>
+                                <li><strong></strong><br></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="mr_pickles">
+                        <td
+                            style="background-image: url('/static/img/MrPicklesLogo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;background-color: rgba(0,30,68,0);">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>3230 Arena Blvd, Sacramento</li>
+                                <li><strong>10% Off</strong><br></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    
+                    <tr location="standard_date">
+                        <td
+                            style="background-image: url('/static/img/standard_dating_logo.png');background-size: contain;background-repeat: no-repeat;background-position: center;height: 137px;background-color: #000000;">
+                        </td>
+                        <td>
+                            <ul class="list-unstyled" style="margin-top: 2rem;">
+                                <li>3216 Fireside Way, Sacramento</li>
+                                <li><strong>15% Off</strong><br></li>
+                            </ul>
+                        </td>
+                    </tr>
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="features-clean">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center" id="about-us">About Us</h2>
+            <p class="text-center">American River Gold is based in the Sacramento / Davis area.&nbsp; We seek to
+                improve the consumer experience by removing the hassle of handling coupons. We do this by placing
+                discounts for all your favorite Sacramento and Davis retailers
+                onto a single prepaid credit card. We are currently in the beta testing phase and are looking for
+                shoppers and retailers who would like to save money and increase consumer activity. &nbsp;Sign up
+                for our beta program today!</p>
+            <h2 class="text-center" id="contact-us">Contact Information</h2>
+            <p class="text-center" style="margin-bottom: 0px;">bryan@americanrivergold.com</p>
+            <p class="text-center">(916) 397-8238</p>
+        </div>
+    </div>
+</div>
+</template>
+   
+   <template id="about">
+           <div class="header-container2">
+           
+        American River Gold is based in the Sacramento / Davis area.&nbsp; We seek to
+        improve the consumer experience by removing the hassle of handling coupons. We do this by placing
+        discounts for all your favorite Sacramento and Davis retailers
+        onto a single prepaid credit card. We are currently in the beta testing phase and are looking for
+        shoppers and retailers who would like to save money and increase consumer activity. &nbsp;Sign up
+        for our beta program today! <br>
+        <h1>  bryan@americanrivergold.com </h1>
+        <h2>(916) 397-8238</h2>
+       </div>
+   </template>
+   
+   <template id="ourcustomers">
+       <div class="section">
+           <div class="header-container2">
+               <h1>CUSTOMERS</h1>
+           </div>
+       </div>
+    </template>
+
+    <template id="ourretailers">
+        <div class="section">
+            <div class="header-container2">
+                <h1>RETAILERS</h1>
+            </div>
+        </div>
+     </template>
+
+     <template id="ourmerchants">
+        <div class="section">
+            <div class="header-container2">
+                <h1>merchants   </h1>
+            </div>
+        </div>
+     </template>
+
+     <template id="channelpartners">
+        <div class="section">
+            <div class="header-container2">
+                <h1>channelpartners</h1>
+            </div>
+        </div>
+     </template>
+
+     <template id="cardholders">
+        <div class="section">
+            <div class="header-container2">
+                <h1>cardholders</h1>
+            </div>
+        </div>
+     </template>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.0/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.0/vue-router.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/Vuecare.html.js"></script>
+</body>
+</html>

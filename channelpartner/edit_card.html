@@ -1,0 +1,85 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %} 
+
+{% block styles %}
+((super()))
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+  body {
+    background-image: url('static/img/gold-cascade-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #register {
+    text-align:right;
+    width:400px;
+    margin:auto;
+    margin-top:120px;
+    padding:15px;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    border-radius:25px;
+    color: gold;
+  }
+
+  #submit {
+    text-align:center; 
+    margin-right:125px;
+    padding:10px;
+    background-color: gold;
+    font-size:15px;
+    border-radius:25px;
+    font-weight:bold;
+    width:100px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    margin-right: 60px;
+  }
+
+  @media screen and (max-width: 780px) {
+    body {
+      background-image: url('static/img/gold-cascade-background - orig.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+		#register {
+			border:none;
+    }
+}
+</style>
+
+<div class="container">
+  
+  <form id="register" class="new_account" method="POST" action="/post_card_changes">
+    <h2>Update Card and Activate for Card (( card.last4 )) </h2>
+    <input type="hidden" id="stripe_card_id" name="stripe_card_id" value="(( card.stripe_card_id ))">
+    <p>Address line 1 <input type="text" value="((card.line1))" name="line1" > </p>
+    <p>Address line 2 <input type="text" value="((card.line2))" name="line2" > </p>
+    <p>City <input type="text"           value="((card.city))"  name="city" > </p>
+    <p>State <input type="text"          value="((card.state))"  name="state" ></p>
+    <p>Postal code <input type="text"    value="((card.postal_code))"  name="postal_code" > </p>
+    <p>Email <input type="text" value="((card.email))" name="email" > </p>
+    <p>Phone <input type="text" value="((card.phone))" name="phone" > </p>
+    <p>Date of birth <input type="text" value="((card.birthdate))" name="birthdate" > </p>
+    <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Edit Card Info</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}
