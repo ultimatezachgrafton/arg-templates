@@ -177,7 +177,7 @@
         </div>
         <div class="data">
           <h4>Issue Date</h4>
-          <p>((card.created))</p>
+          <p id="issued-date">((card.created))</p>
         </div>
         <div class="data">
           <h4>Type</h4>
@@ -282,11 +282,13 @@
 </div>
 
 <script>
-  window.addEventListener("load", () => {
+  // Format "issued date" value
+  window.addEventListener("DOMContentLoaded", () => {
     const i = document.getElementById("issued-date");
     i.innerHTML = formatDate(i.innerHTML);
   });
 
+  // Format purchase dates for table
   window.addEventListener("DOMContentLoaded", () => {
     const t = document.getElementById("activity");
 
@@ -295,6 +297,7 @@
     }
   });
 
+  // Creates modals on click
   document.getElementById("activity").addEventListener("click", (e) => {
     const table = document.getElementsByTagName("table")[0];
     const tbody = table.getElementsByTagName("tbody")[0];

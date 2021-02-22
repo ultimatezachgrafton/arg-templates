@@ -60,7 +60,7 @@
   <!-- ^^^ add line2, city, state, postal code -->
   <h4>Telephone: (( card.phone )) </h4>
   <h4>Channel Partner: (( card.channel_partner_id )) </h4>
-  <h4>Spending limit: (( "${:,.2f}".format(card.spending_limit_amount/100) ))</h4>
+  <h4>Spending limit: (( "${:,.2f}".format(lastactivity.spendinglimit/100) ))</h4>
   <h4 style="display:none">Note: (( card.note )) </h4>
 
   <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
@@ -68,7 +68,7 @@
 
 <form name='add-money' class="borderedheaderbutton" action="/add_money" method="POST"
   style="margin:25px 50px 10px 50px">
-  <h3><b>Current balance: (( "${:,.2f}".format(card.balance/100) )) </b></h3>
+  <h3><b>Current balance: (( "${:,.2f}".format(lastactivity.balance/100)  )) </b></h3>
   <h3 id="last4"> <input type="hidden" name="last4" value=((card.last4))> </h3>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -91,14 +91,14 @@
     card</a>#}
 </div>
 
-<div class="activity-table"></div>
+<div class="activity-table">
   <div class="activity-history">
     <h3>Activity History</h3>
   </div>
   <div class="table-sortable">
     <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sortable="true">
       <thead>
-        <th class="th-full" style="width:7%" data-sortable="true">ID</th>
+        <th class="th-full" style="width:7%" data-sortable="true">First 4</th>
         <th style="width:13%" data-sortable="true">Date</th>
         <th class="th-full" style="width:10%" data-sortable="true">Status</th>
         <th class="th-full" style="width:15%" data-sortable="true">Merchant</th>
@@ -120,7 +120,7 @@
           <td class="td-full">(( activity.approved ))</td>
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td style="font-weight:bold">(( "${:,.2f}".format(activity.balance/100) ))</td>
-          <td class="td-med">(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
+          <td class="td-med">(( "${:,.2f}".format(activity.spendinglimit/100) ))</td>
         </tr>
         {% endfor %}
       </tbody>
