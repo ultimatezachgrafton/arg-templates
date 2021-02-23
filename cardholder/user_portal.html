@@ -197,15 +197,14 @@
 
   </div>
 
-  <!-- <div class="activity-table" style="background: #fff"> -->
   <h3 style="margin-left: 50px;">History</h3>
   <div class="table-sortable">
-    <table id="activity" class="table" data-toggle="table" data-sortable="true" 
+    <table id="activity" class="table table-borderless" data-toggle="table" data-sortable="true" 
       data-sort-name="date" data-sort-order="desc">
       <thead>
         <th data-sortable="true" data-field="date">Date</th>
         <th data-sortable="true" class="th-sm">Merchant</th>
-        <th data-sortable="true" class="th-full">City</th>
+        <th data-sortable="true" class="th-sm">Status</th>
         <th data-sortable="true" class="th-med">Approved</th>
         <th data-sortable="true">Amount</th>
         <th data-sortable="true">Balance</th>
@@ -221,9 +220,9 @@
           <td class="td-sm">(( activity.merchant_name ))</td>
           <td class="td-hide"> (( activity.activity_id )) </td>
           <td class="td-hide"> (( activity.activity_type )) </td>
-          <td class="td-hide"> (( activity.status )) </td>
+          <td class="td-sm"> (( activity.status )) </td>
           <td class="td-hide"> (( activity.merchant_category )) </td>
-          <td class="td-full"> (( activity.merchant_city )) </td>
+          <td class="td-hide"> (( activity.merchant_city )) </td>
           <td class="td-med"> (( activity.approved )) </td>
 
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
