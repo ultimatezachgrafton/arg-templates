@@ -1,21 +1,21 @@
 <style>
   h2,
-  h3,
   h4 {
     margin: 10px 0px 0px 0px
+  }
+
+  .bootstrap-table .fixed-table-container .fixed-table-body {
+    height: fit-content !important;
+    width: 95% !important;
+    margin: auto !important;
   }
 
   #input-amount {
     width: 100px;
   }
 
-  .table {
-    margin: 10px 0px 0px 10px;
-    max-width: 95%;
-  }
-
   .activity-history {
-    margin: 15px 0px 0px 25px;
+    margin-left: 30px !important;
   }
 
   .td-hide,
@@ -63,12 +63,12 @@
   <h4>Spending limit: (( "${:,.2f}".format(lastactivity.spendinglimit/100) ))</h4>
   <h4 style="display:none">Note: (( card.note )) </h4>
 
-  <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card Info</a> -->
+  <!-- <p></p><a id="edit-account-a" href="/edit_card_info">Edit Card	 Info</a> -->
 </div>
 
 <form name='add-money' class="borderedheaderbutton" action="/add_money" method="POST"
   style="margin:25px 50px 10px 50px">
-  <h3><b>Current balance: (( "${:,.2f}".format(lastactivity.balance/100)  )) </b></h3>
+  <h3><b>Current balance: (( "${:,.2f}".format(lastactivity.balance/100) )) </b></h3>
   <h3 id="last4"> <input type="hidden" name="last4" value=((card.last4))> </h3>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -83,12 +83,13 @@
   <button class="btn btn-primary" type="submit" value="add" style="margin-top:10px;">Add Money</button>
 </form>
 <div id="card-body" style="margin:10px 0px 10px 50px">
-  <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button" style="margin-top:10px">Make
-    initial payment</a>
+  <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button" style="margin-top:10px">
+    Activate Card</a>
   <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button"
     style="margin-top:10px;">Edit Cardholder information</a>
   {# <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for any
     card</a>#}
+  <a href="/channel_partner_accounts" class="btn btn-primary" role="button" style="margin-top:10px">Return to list</a>
 </div>
 
 <div class="activity-table">
@@ -96,17 +97,18 @@
     <h3>Activity History</h3>
   </div>
   <div class="table-sortable">
-    <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sortable="true">
+    <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sortable="true"
+      data-sort-name="date" data-sort-order="desc"">
       <thead>
-        <th class="th-full" style="width:7%" data-sortable="true">First 4</th>
-        <th style="width:13%" data-sortable="true">Date</th>
-        <th class="th-full" style="width:10%" data-sortable="true">Status</th>
-        <th class="th-full" style="width:15%" data-sortable="true">Merchant</th>
-        <th class="th-hide" data-sortable="true">Auth ID</th>
-        <th class="th-full" style="width:10%" data-sortable="true">Approved</th>
-        <th style="width:10%" data-sortable="true">Amount</th>
-        <th style="width:10%" data-sortable="true">Balance</th>
-        <th class="th-med" style="width:10%" data-sortable="true">Limit</th>
+        <th class=" th-full" style="width:7%" data-sortable="true">ID</th>
+      <th style="width:13%" data-field="date" data-sortable="true">Date</th>
+      <th class="th-full" style="width:10%" data-sortable="true">Status</th>
+      <th class="th-full" style="width:15%" data-sortable="true">Merchant</th>
+      <th class="th-hide" data-sortable="true">Auth ID</th>
+      <th class="th-full" style="width:10%" data-sortable="true">Approved</th>
+      <th style="width:10%" data-sortable="true">Amount</th>
+      <th style="width:10%" data-sortable="true">Balance</th>
+      <th class="th-med" style="width:10%" data-sortable="true">Limit</th>
       </thead>
       <tbody>
         {# if activity.visible is none #}

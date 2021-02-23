@@ -5,6 +5,10 @@
 <style>
   @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
+  .bootstrap-table .fixed-table-container .table {
+    background-color: white;
+  }
+
   .wrapper {
     width: 100%;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, .08);
@@ -122,7 +126,7 @@
     .wrapper .right .projects-data {
       display: block;
     }
-    
+
   }
 
   @media screen and (max-width: 500px) {
@@ -133,7 +137,7 @@
 
     .th-sm,
     .td-sm {
-      display:none;
+      display: none;
     }
 
   }
@@ -144,26 +148,26 @@
     <div class="info">
       <h3>Welcome, ((card.billingname))!</h3>
       <div class="info-data">
-          <div class="data">
-            <h4>Phone</h4>
-            <p>((card.phone))</p>
-          </div>
-          <div class="data">
-            <h4>Address</h4>
-            <p>((card.line1))</p>
-          </div>
-        
-          <div class="data">
-            <h4>Channel Partner</h4>
-            <p>((card.channel_partner_id))</p>
-          </div>
-          <div class="data">
-            <h4>Email</h4>
-            <p>((card.email))</p>
-          </div>
+        <div class="data">
+          <h4>Phone</h4>
+          <p>((card.phone))</p>
+        </div>
+        <div class="data">
+          <h4>Address</h4>
+          <p>((card.line1))</p>
+        </div>
+
+        <div class="data">
+          <h4>Channel Partner</h4>
+          <p>((card.channel_partner_id))</p>
+        </div>
+        <div class="data">
+          <h4>Email</h4>
+          <p>((card.email))</p>
         </div>
       </div>
-    
+    </div>
+
     <div class="projects">
       <h3>Card Data</h3>
       <div class="projects-data">
@@ -193,45 +197,45 @@
 
   </div>
 
-  <div class="activity-table" style="background: #fff">
-    <h3 style="margin-left: 50px;">History</h3>
-    <div class="table-sortable">
-      <table id="activity" class="table" data-toggle="table" data-sortable="true">
-        <thead>
+  <!-- <div class="activity-table" style="background: #fff"> -->
+  <h3 style="margin-left: 50px;">History</h3>
+  <div class="table-sortable">
+    <table id="activity" class="table" data-toggle="table" data-sortable="true" 
+      data-sort-name="date" data-sort-order="desc">
+      <thead>
+        <th data-sortable="true" data-field="date">Date</th>
+        <th data-sortable="true" class="th-sm">Merchant</th>
+        <th data-sortable="true" class="th-full">City</th>
+        <th data-sortable="true" class="th-med">Approved</th>
+        <th data-sortable="true">Amount</th>
+        <th data-sortable="true">Balance</th>
+        <th data-sortable="true" class="th-med">Note</th>
 
-          <th data-sortable="true">Date</th>
-          <th data-sortable="true" class="th-sm">Merchant</th>
-          <th data-sortable="true" class="th-full">City</th>
-          <th data-sortable="true" class="th-med">Approved</th>
-          <th data-sortable="true">Amount</th>
-          <th data-sortable="true">Balance</th>
-          <th data-sortable="true" class="th-med">Note</th>
+      </thead>
+      <tbody>
+        {% for activity in activities %}
+        <tr data-toggle="modal" data-target="#trModal">
+          <td id="td-date">(( activity.date ))</td>
+          <td style="display: none">((activity.date))<br>((activity.merchant_name))</td>
 
-        </thead>
-        <tbody>
-          {% for activity in activities %}
-          <tr data-toggle="modal" data-target="#trModal">
-            <td id="td-date">(( activity.date ))</td>
-            <td style="display: none">((activity.date))<br>((activity.merchant_name))</td>
+          <td class="td-sm">(( activity.merchant_name ))</td>
+          <td class="td-hide"> (( activity.activity_id )) </td>
+          <td class="td-hide"> (( activity.activity_type )) </td>
+          <td class="td-hide"> (( activity.status )) </td>
+          <td class="td-hide"> (( activity.merchant_category )) </td>
+          <td class="td-full"> (( activity.merchant_city )) </td>
+          <td class="td-med"> (( activity.approved )) </td>
 
-            <td class="td-sm">(( activity.merchant_name ))</td>
-            <td class="td-hide"> (( activity.activity_id )) </td>
-            <td class="td-hide"> (( activity.activity_type )) </td>
-            <td class="td-hide"> (( activity.status )) </td>
-            <td class="td-hide"> (( activity.merchant_category )) </td>
-            <td class="td-full"> (( activity.merchant_city )) </td>
-            <td class="td-med"> (( activity.approved )) </td>
+          <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
+          <td><b>(( "${:,.2f}".format(activity.balance/100) ))</b></td>
 
-            <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
-            <td><b>(( "${:,.2f}".format(activity.balance/100) ))</b></td>
-
-            <td class="td-med" style="overflow-wrap: break-word"> (( activity.note )) </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          <td class="td-med" style="overflow-wrap: break-word"> (( activity.note )) </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+</div>
 </div>
 
 <div class="modal hide fade" id="trModal" role="dialog">
@@ -246,7 +250,7 @@
       <div class="modal-body">
         <span><b><span>Amount: <span id="modal-amount"></span></b>
           <span><b>Balance: <span id="modal-balance"></b></span><br></span>
-          <br>
+        <br>
 
         <span>
           <b>Date:</b> <span id="modal-date" class="modal-title-line"></span>
