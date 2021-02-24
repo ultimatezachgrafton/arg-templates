@@ -100,6 +100,10 @@
     width: 200px;
   }
 
+  .wrapper #input-note {
+    width: 400px;
+  }
+
   .wrapper .wrapper-input h3 {
     margin: 0px;
   }
@@ -114,12 +118,12 @@
   }
 
   .wrapper #card-body {
-    margin-top:20px;
+    margin-top: 20px;
   }
 
   .wrapper #card-body .btn {
     margin-top: 10px;
-    margin-right:25px;
+    margin-right: 25px;
   }
 
   .divider {
@@ -164,6 +168,10 @@
 
   @media screen and (max-width: 500px) {
 
+    .wrapper #input-note {
+      width: 300px;
+    }
+
     .activity-table {
       margin: 0px 5px 0px 5px;
     }
@@ -178,6 +186,14 @@
       display: none;
     }
   }
+
+  @media screen and (max-width: 500px) {
+
+    .wrapper #input-note {
+      width: 250px;
+    }
+  }
+  
 </style>
 
 {% extends 'base.html' %}
@@ -268,7 +284,7 @@
       <div class="form-group" id="payment-note"> <label for="input-note">
           <h3>Note:</h3>
         </label>
-        <input id="input-note" type="text" class="form-control" name="paymentnote"> 
+        <input id="input-note" type="text" class="form-control" name="paymentnote">
       </div>
     </div>
 
@@ -276,7 +292,8 @@
       <button class="btn btn-success btn-lg" type="submit" value="add">Add Money</button>
       <a href="/activate_card/(( card.stripe_card_id ))" class="btn btn-primary" role="button">
         Activate Card</a>
-      <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder information</a>
+      <a href="/edit_cardholder/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Edit Cardholder
+        information</a>
       {# <a href="/edit_card_info2/(( card.stripe_card_id ))" class="btn btn-primary" role="button">Update user info for
         any
         card</a>#}
@@ -292,18 +309,18 @@
     </div>
     <div class="table-sortable">
       <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sort-name="first-four"
-        data-sort-order="desc""> 
+        data-sort-order="asc">
 
-      <thead>
-        <th class=" th-full" data-field="first-four">Last 4</th>
-        <th data-field="date">Date</th>
-        <th class="th-full">Status</th>
-        <th class="th-full">Merchant</th>
-        <th class="th-hide">Auth ID</th>
-        <th class="th-full">Approved</th>
-        <th>Amount</th>
-        <th>Balance</th>
-        <th class="th-med">Limit</th>
+        <thead>
+          <th class=" th-full" data-field="first-four">Last 4</th>
+          <th data-field="date">Date</th>
+          <th class="th-full">Status</th>
+          <th class="th-full">Merchant</th>
+          <th class="th-hide">Auth ID</th>
+          <th class="th-full">Approved</th>
+          <th>Amount</th>
+          <th>Balance</th>
+          <th class="th-med">Limit</th>
         </thead>
         <tbody>
           {# if activity.visible is none #}
