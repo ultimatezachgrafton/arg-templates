@@ -199,8 +199,8 @@
 
   <h3 style="margin-left: 50px;">History</h3>
   <div class="table-sortable">
-    <table id="activity" class="table table-borderless" data-toggle="table" data-sortable="true" 
-      data-sort-name="date" data-sort-order="desc">
+    <table id="activity" class="table table-borderless" data-toggle="table" data-sortable="true" data-sort-name="date"
+      data-sort-order="desc">
       <thead>
         <th data-sortable="true" data-field="date">Date</th>
         <th data-sortable="true" class="th-sm">Merchant</th>
@@ -209,8 +209,8 @@
         <th data-sortable="true">Amount</th>
         <th data-sortable="true">Balance</th>
         <th data-sortable="true" class="th-med">Note</th>
-
       </thead>
+
       <tbody>
         {% for activity in activities %}
         <tr data-toggle="modal" data-target="#trModal">
@@ -255,7 +255,7 @@
           <b>Date:</b> <span id="modal-date" class="modal-title-line"></span>
         </span><br>
 
-        <span><b>Transaction ID: </b><span class="modal-title-line" id="modal-activity-id"></span>
+        <span><b>Last 4 Digits of Transaction ID: </b><span class="modal-title-line" id="modal-activity-id"></span>
         </span><br>
 
         <span><b>Activity type:</b> <span id="modal-activity-type">

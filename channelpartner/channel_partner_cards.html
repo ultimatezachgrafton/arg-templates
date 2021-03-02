@@ -66,56 +66,99 @@
 
 <br><br>
 
-    <div class="table-sortable">
-        <table id="activity" class="table" data-toggle="table" data-sortable="true" data-sort-name="date"
-            data-sort-order="desc">
-            <thead>
-                <tr>
-                    <th class="th-hide" data-sortable="true"> Card ID# </th>
-                    <th id="th-id" data-sortable="true"> Last 4 </th>
-                    <th id="th-name" data-sortable="true"> Name </th>
-                    <th id="th-card-type" data-sortable="true" class="th-med"> Card type </th>
-                    <th id="th-status" data-sortable="true" class="th-med"> Status </th>
-                    <th id="th-date-created" data-field="date" data-sortable="true" class="th-full"> Date created </th>
-                    <th id="th-exp" data-sortable="true" class="th-full"> Expiration </th>
-                    <th id="th-limit" data-sortable="true" class="td-sp"> Spending limit </th>
-                    <th id="th-balance" data-sortable="true"> Balance </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for card in cards %}
-                <tr>
-                    <td class="td-hide">
-                        (( card.card_id ))
-                    </td>
-                    <td>
-                        <a href="/issuing/cards/(( card.stripe_card_id ))">
-                            (( card.last4 ))
-                        </a>
-                    </td>
-                    <td>(( card.billingname ))</td>
-                    <td class="td-med">(( card.card_type ))</td>
-                    <td class="td-med">(( card.status ))</td>
-                    <td class="td-full"> (( card.created )) </td>
-                    <td class="td-full">((card.exp_month))/((card.exp_year))</td>
-                    <td class="td-sp">(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
-                    <td>(( "${:,.2f}".format(card.balance/100) ))</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="table-sortable">
+    <table id="activity" class="table" data-toggle="table" data-sort-name="date" data-sort-order="asc">
+        <thead>
+            <tr>
+                <th class="th-hide"> Card ID# </th>
+                <th id="th-id" data-sortable="true"> Last 4 </th>
+                <th id="th-name" data-sortable="true" data-field="name"> Name </th>
+                <th id="th-card-type" data-sortable="true" class="th-med"> Card type </th>
+                <th id="th-status" data-sortable="true" class="th-med"> Status </th>
+                <th id="th-date-created" data-field="date" data-sortable="true" class="th-full"> Date created </th>
+                <th id="th-exp" data-sortable="true" class="th-full"> Expiration </th>
+                <th id="th-limit" data-sortable="true" class="td-sp"> Spending limit </th>
+                <th id="th-balance" data-sortable="true"> Balance </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+            <tr>
+                <td class="td-hide">
+                    (( card.card_id ))
+                </td>
+                <td>
+                    <a href="/issuing/cards/(( card.stripe_card_id ))">
+                        (( card.last4 ))
+                    </a>
+                </td>
+                <td>(( card.billingname ))</td>
+                <td class="td-med">(( card.card_type ))</td>
+                <td class="td-med">(( card.status ))</td>
+                <td class="td-full"> (( card.created )) </td>
+                <td class="td-full">((card.exp_month))/((card.exp_year))</td>
+                <td class="td-sp">(( "${:,.2f}".format(card.spending_limit_amount/100) ))</td>
+                <td>(( "${:,.2f}".format(card.balance/100) ))</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 </div>
 
 <script>
 
-    window.addEventListener("DOMContentLoaded", () => {
-        const t = document.getElementById("activity");
+    const t = document.getElementById("activity");
+
+    window.addEventListener("load", () => {
+        const dataArrays = [];
+        let dataSorted = [];
+        let temp = [];
+
+        // Fetches cell data from table.
+        for (let i = 0; i < t.rows.length; i++) {
+            let data = [];
+
+            // Begins at 1 to exclude first column, "Transaction ID," which is never shown.
+            for (let j = 1; j < t.rows[i].cells.length; j++) {
+                data.push(t.rows[i].cells[j].innerHTML);
+            }
+            dataArrays[i] = data;
+            data = [];
+        };
+
+        // Sorts each array value by name for initial display.
+        dataSorted = dataArrays.sort(function (a, b) {
+            if (a[4].toLowerCase() > b[4].toLowerCase()) return -1;
+            if (a[4].toLowerCase() < b[4].toLowerCase()) return 1;
+            if (a[1].toLowerCase() > b[0].toLowerCase()) return -1;
+            if (a[1].toLowerCase() < b[0].toLowerCase()) return 1;
+            return 0;
+        });
+
+        // Pushes sorted values to table. Excludes the header row by beginning at 1.
         for (let i = 1; i < t.rows.length; i++) {
-            t.rows[i].cells[5].innerHTML = formatDate(t.rows[i].cells[5].innerHTML);
-        }
+            for (let j = 0; j < t.rows[i].cells.length - 1; j++) {
+                t.rows[i].cells[j].innerHTML = dataSorted[i][j - 1];
+            };
+        };
+
+        formatTableDates();
     });
+
+    document.getElementById("activity").addEventListener("click", (e) => {
+        formatTableDates();
+    });
+
+    // Formats tables. Timeout is a temporary solution regarding Bootstrap Table.
+    function formatTableDates() {
+        setTimeout(function () {
+            for (let i = 1; i < t.rows.length; i++) {
+                t.rows[i].cells[5].innerHTML = formatDate(t.rows[i].cells[5].innerHTML);
+            };
+        }, 1);
+    }
 
 </script>
 
