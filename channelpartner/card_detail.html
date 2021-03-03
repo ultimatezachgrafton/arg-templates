@@ -146,6 +146,18 @@
     padding-right: 10px;
   }
 
+  @media screen and (max-width: 1150px) {
+
+    .th-status,
+    .td-status {
+      display: none;
+    }
+
+    .activity-history {
+      margin-left: 5px;
+    }
+  }
+
   @media screen and (max-width: 800px) {
 
     .th-full,
@@ -191,13 +203,7 @@
     .td-med {
       display: none;
     }
-  }
 
-  @media screen and (max-width: 500px) {
-
-    .wrapper #input-note {
-      width: 250px;
-    }
   }
 </style>
 
@@ -277,7 +283,7 @@
     {% endif %}
     {% endwith %}
 
-    <div class="wrapper-input">
+    <span class="wrapper-input">
       <label for="input-amount">
         <h3>Add Amount:</h3>
       </label>
@@ -286,12 +292,13 @@
           <input id="input-amount" type="text" class="form-control" name="amount">
         </div>
       </div>
+      <label for="input-note">
+        <h3>Note:</h3>
+      </label>
       <div class="form-group" id="payment-note"> <label for="input-note">
-          <h3>Note:</h3>
-        </label>
-        <input id="input-note" type="text" class="form-control" name="paymentnote">
+          <input id="input-note" type="text" class="form-control" name="paymentnote">
       </div>
-    </div>
+    </span>
 
     <div id="card-body">
       <button class="btn btn-success btn-lg" type="submit" value="add">Add Money</button>
@@ -313,12 +320,13 @@
       <h3>Activity History</h3>
     </div>
     <div class="table-sortable">
-      <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sort-name="last-four">
+      <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sort-name="activity-id">
 
         <thead>
-          <th class="th-full" data-field="last-four">Last 4</th>
+          <th class="th-full" data-field="activity-id">ID</th>
           <th data-field="date">Date</th>
-          <th class="th-full">Status</th>
+          <th class="th-full">Transaction ID</th>
+          <th class="th-status">Status</th>
           <th class="th-full">Merchant</th>
           <th class="th-hide">Auth ID</th>
           <th class="th-full">Approved</th>
@@ -332,7 +340,8 @@
           <tr data-toggle="modal" data-target="#trModal">
             <td class="td-full">(( activity.activity_id ))</td>
             <td>(( activity.date ))</td>
-            <td class="td-full">(( activity.status ))</td>
+            <td class="td-full">(( activity.stripe_transaction_id )) / (( activity.referenceID ))</td>
+            <td class="td-status">(( activity.status ))</td>
             <td class="td-full">(( activity.merchant_name ))</td>
             <td class="td-hide">(( activity.stripe_authorization_id ))</td>
             <td class="td-full">(( activity.approved ))</td>
@@ -353,23 +362,31 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <div class="modal-title" id="modal-title">
-            <b>Activity Details</b></div>
+            <b>Activity Details</b>
+          </div>
         </div>
         <div class="modal-body" id="modal-body">
 
           <span style="display:inline-block"><b>Amount:</b>
             <div id="modal-amount" style="display:inline-block"></div>
-          </span><br> <span style="display:inline-block"><b>Balance: 
-            <div id="modal-balance" style="display:inline-block;"></div></b>
+          </span><br> <span style="display:inline-block"><b>Balance:
+              <div id="modal-balance" style="display:inline-block;"></div>
+            </b>
           </span><br>
           <span style="display:inline-block"><b>Limit:</b>
             <div id="modal-limit" style="display:inline-block"></div>
           </span><br><br>
           <span style="display:inline-block"> <b>Date:</b>
             <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
-          </span>
-          <span style="display:inline-block"><b>Last 4 Digits of Transaction ID:</b>
+          </span><br>
+          <span style="display:inline-block"><b>Last 4 Digits:</b>
             <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block"><b>Transaction ID / Reference ID:</b>
+            <div id="modal-transaction-id" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block"><b>Approved:</b>
+            <div id="modal-approved" style="display:inline-block"></div>
           </span><br>
           <span style="display:inline-block"><b>Activity type:</b>
             <div id="modal-auth-id" style="display:inline-block">
@@ -419,6 +436,7 @@
       }
       document.getElementById("modal-activity-id").innerHTML = cells[0].innerHTML;
       document.getElementById("modal-date").innerHTML = cells[1].innerHTML;
+      document.getElementById("modal-transaction-id").innerHTML = cells[5].innerHTML;
       document.getElementById("modal-status").innerHTML = cells[2].innerHTML;
       document.getElementById("modal-merchant-name").innerHTML = cells[3].innerHTML;
       document.getElementById("modal-auth-id").innerHTML = cells[4].innerHTML;

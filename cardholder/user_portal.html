@@ -115,7 +115,7 @@
     }
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 800px) {
 
     .th-med,
     .td-med {
@@ -125,6 +125,15 @@
     .wrapper .right .info-data,
     .wrapper .right .projects-data {
       display: block;
+    }
+
+  }
+
+  @media screen and (max-width: 650px) {
+
+    .th-ref,
+    .td-ref {
+      display: none;
     }
 
   }
@@ -199,13 +208,14 @@
 
   <h3 style="margin-left: 50px;">History</h3>
   <div class="table-sortable">
-    <table id="activity" class="table table-borderless" data-toggle="table" data-sortable="true" data-sort-name="date"
-      data-sort-order="desc">
+    <table id="activity" class="table table-borderless" data-toggle="table" data-sortable="true"
+      data-sort-name="transaction-date">
       <thead>
-        <th data-sortable="true" data-field="date">Date</th>
+        <th data-sortable="true" data-field="transaction-date">Date</th>
+        <!-- <th data-sortable="true" class="th-ref">Transaction ID</th> -->
         <th data-sortable="true" class="th-sm">Merchant</th>
-        <th data-sortable="true" class="th-sm">Status</th>
-        <th data-sortable="true" class="th-med">Approved</th>
+        <th data-sortable="true" class="th-full">Status</th>
+        <th data-sortable="true" class="th-full">Approved</th>
         <th data-sortable="true">Amount</th>
         <th data-sortable="true">Balance</th>
         <th data-sortable="true" class="th-med">Note</th>
@@ -215,15 +225,16 @@
         {% for activity in activities %}
         <tr data-toggle="modal" data-target="#trModal">
           <td id="td-date">(( activity.date ))</td>
-          <td style="display: none">((activity.date))<br>((activity.merchant_name))</td>
+          <td style="display: none">(( activity.date )) <br> (( activity.merchant_name ))</td>
 
+          <!-- <td class="td-ref"> (( activity.referenceID )) </td> -->
           <td class="td-sm">(( activity.merchant_name ))</td>
           <td class="td-hide"> (( activity.activity_id )) </td>
           <td class="td-hide"> (( activity.activity_type )) </td>
-          <td class="td-sm"> (( activity.status )) </td>
+          <td class="td-full"> (( activity.status )) </td>
           <td class="td-hide"> (( activity.merchant_category )) </td>
           <td class="td-hide"> (( activity.merchant_city )) </td>
-          <td class="td-med"> (( activity.approved )) </td>
+          <td class="td-full">(( activity.approved )) </td>
 
           <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
           <td><b>(( "${:,.2f}".format(activity.balance/100) ))</b></td>
@@ -234,7 +245,6 @@
       </tbody>
     </table>
   </div>
-</div>
 </div>
 
 <div class="modal hide fade" id="trModal" role="dialog">
@@ -255,7 +265,7 @@
           <b>Date:</b> <span id="modal-date" class="modal-title-line"></span>
         </span><br>
 
-        <span><b>Last 4 Digits of Transaction ID: </b><span class="modal-title-line" id="modal-activity-id"></span>
+        <span><b>Last 4 Digits: </b><span class="modal-title-line" id="modal-activity-id"></span>
         </span><br>
 
         <span><b>Activity type:</b> <span id="modal-activity-type">
@@ -273,7 +283,10 @@
         <span><b>City: </b><span id="modal-merchant-city"></span>
         </span><br>
 
-        <span><b>Approved: </b><span id="modal-approved"></span>
+        <!-- <span><b>Transaction ID: </b><span id="modal-transaction-id"></span>
+        </span><br> -->
+
+        <span><b>Approved: </b><span id="modal-approved-id"></span>
         </span><br>
 
         <span><b>Note: </b><span id="modal-note"></span>
@@ -293,12 +306,11 @@
     let dataSorted = [];
     let temp = [];
 
-    // Fetches cell data from table.
-    for (let i = 0; i < t.rows.length; i++) {
+    // Fetches cell data from table. Excludes the header row by beginning at 1.
+    for (let i = 1; i < t.rows.length; i++) {
       let data = [];
 
-      // Begins at 1 to exclude first column, "Transaction ID," which is never shown.
-      for (let j = 1; j < t.rows[i].cells.length; j++) {
+      for (let j = 0; j < t.rows[i].cells.length; j++) {
         data.push(t.rows[i].cells[j].innerHTML);
       }
       dataArrays[i] = data;
@@ -307,22 +319,17 @@
 
     // Sorts each array value by name for initial display.
     dataSorted = dataArrays.sort(function (a, b) {
-      // if (a[4].toLowerCase() > b[4].toLowerCase()) return -1;
-      // if (a[4].toLowerCase() < b[4].toLowerCase()) return 1;
-      if (a[1].toLowerCase() > b[0].toLowerCase()) return -1;
-      if (a[1].toLowerCase() < b[0].toLowerCase()) return 1;
+      if (a[1].toLowerCase() > b[0].toLowerCase()) return 1;
+      if (a[1].toLowerCase() < b[0].toLowerCase()) return -1;
       return 0;
     });
 
-    console.log(dataSorted);
-
     // Pushes sorted values to table. Excludes the header row by beginning at 1.
     for (let i = 1; i < t.rows.length; i++) {
-      for (let j = 0; j < t.rows[i].cells.length - 1; j++) {
-        t.rows[i].cells[j].innerHTML = dataSorted[i][j - 1];
+      for (let j = 0; j < t.rows[i].cells.length; j++) {
+        t.rows[i].cells[j].innerHTML = dataSorted[i - 1][j];
       };
-    };
-
+    }
     formatTableDates();
   });
 
@@ -334,7 +341,7 @@
   function formatTableDates() {
     setTimeout(function () {
       for (let i = 1; i < t.rows.length; i++) {
-        t.rows[i].cells[5].innerHTML = formatDate(t.rows[i].cells[5].innerHTML);
+        t.rows[i].cells[0].innerHTML = formatDate(t.rows[i].cells[0].innerHTML);
       };
     }, 1);
   }
@@ -344,15 +351,6 @@
     const i = document.getElementById("issued-date");
     i.innerHTML = formatDate(i.innerHTML);
   });
-
-  // Format purchase dates for table
-  // window.addEventListener("DOMContentLoaded", () => {
-  //   const t = document.getElementById("activity");
-
-  //   for (let i = 1; i < t.rows.length; i++) {
-  //     t.rows[i].cells[0].innerHTML = formatDate(t.rows[i].cells[0].innerHTML);
-  //   }
-  // });
 
   // Creates modals on click
   document.getElementById("activity").addEventListener("click", (e) => {
@@ -378,12 +376,13 @@
 
       document.getElementById("modal-merchant-type").innerHTML = cells[6].innerHTML;
       document.getElementById("modal-merchant-city").innerHTML = cells[7].innerHTML;
-      document.getElementById("modal-approved").innerHTML = cells[8].innerHTML;
+      // document.getElementById("modal-transaction-id").innerHTML = cells[8].innerHTML;
 
       document.getElementById("modal-balance").innerHTML = cells[9].innerHTML;
       document.getElementById("modal-amount").innerHTML = cells[10].innerHTML;
 
       document.getElementById("modal-note").innerHTML = cells[11].innerHTML;
+      document.getElementById("modal-approved").innerHTML = cells[12].innerHTML;
 
     };
   })
