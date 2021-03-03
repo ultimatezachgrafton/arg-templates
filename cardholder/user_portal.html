@@ -60,7 +60,7 @@
 
   .wrapper .right .info-data .data,
   .wrapper .right .projects-data .data {
-    width: 45%; // auto?
+    width: 45%;
   }
 
   .wrapper .right .info-data .data h4,
@@ -285,6 +285,60 @@
 </div>
 
 <script>
+
+  const t = document.getElementById("activity");
+
+  window.addEventListener("load", () => {
+    const dataArrays = [];
+    let dataSorted = [];
+    let temp = [];
+
+    // Fetches cell data from table.
+    for (let i = 0; i < t.rows.length; i++) {
+      let data = [];
+
+      // Begins at 1 to exclude first column, "Transaction ID," which is never shown.
+      for (let j = 1; j < t.rows[i].cells.length; j++) {
+        data.push(t.rows[i].cells[j].innerHTML);
+      }
+      dataArrays[i] = data;
+      data = [];
+    };
+
+    // Sorts each array value by name for initial display.
+    dataSorted = dataArrays.sort(function (a, b) {
+      // if (a[4].toLowerCase() > b[4].toLowerCase()) return -1;
+      // if (a[4].toLowerCase() < b[4].toLowerCase()) return 1;
+      if (a[1].toLowerCase() > b[0].toLowerCase()) return -1;
+      if (a[1].toLowerCase() < b[0].toLowerCase()) return 1;
+      return 0;
+    });
+
+    console.log(dataSorted);
+
+    // Pushes sorted values to table. Excludes the header row by beginning at 1.
+    for (let i = 1; i < t.rows.length; i++) {
+      for (let j = 0; j < t.rows[i].cells.length - 1; j++) {
+        t.rows[i].cells[j].innerHTML = dataSorted[i][j - 1];
+      };
+    };
+
+    formatTableDates();
+  });
+
+  document.getElementById("activity").addEventListener("click", (e) => {
+    formatTableDates();
+  });
+
+  // Formats tables. Timeout is a temporary solution regarding Bootstrap Table.
+  function formatTableDates() {
+    setTimeout(function () {
+      for (let i = 1; i < t.rows.length; i++) {
+        t.rows[i].cells[5].innerHTML = formatDate(t.rows[i].cells[5].innerHTML);
+      };
+    }, 1);
+  }
+
   // Format "issued date" value
   window.addEventListener("DOMContentLoaded", () => {
     const i = document.getElementById("issued-date");
@@ -292,13 +346,13 @@
   });
 
   // Format purchase dates for table
-  window.addEventListener("DOMContentLoaded", () => {
-    const t = document.getElementById("activity");
+  // window.addEventListener("DOMContentLoaded", () => {
+  //   const t = document.getElementById("activity");
 
-    for (let i = 1; i < t.rows.length; i++) {
-      t.rows[i].cells[0].innerHTML = formatDate(t.rows[i].cells[0].innerHTML);
-    }
-  });
+  //   for (let i = 1; i < t.rows.length; i++) {
+  //     t.rows[i].cells[0].innerHTML = formatDate(t.rows[i].cells[0].innerHTML);
+  //   }
+  // });
 
   // Creates modals on click
   document.getElementById("activity").addEventListener("click", (e) => {
