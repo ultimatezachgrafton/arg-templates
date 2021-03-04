@@ -323,11 +323,11 @@
       <table id="activity" class="table" style="table-layout:fixed;" data-toggle="table" data-sort-name="activity-id">
 
         <thead>
-          <th class="th-full" data-field="activity-id">ID</th>
+          <th data-field="activity-id">ID</th>
           <th data-field="date">Date</th>
-          <th class="th-full">Transaction ID</th>
-          <th class="th-status">Status</th>
+          <th class="th-full">Transaction ID / Reference ID</th>
           <th class="th-full">Merchant</th>
+          <th class="th-status">Status</th>
           <th class="th-hide">Auth ID</th>
           <th class="th-full">Approved</th>
           <th>Amount</th>
@@ -338,11 +338,11 @@
           {# if activity.visible is none #}
           {% for activity in activities %}
           <tr data-toggle="modal" data-target="#trModal">
-            <td class="td-full">(( activity.activity_id ))</td>
+            <td>(( activity.activity_id ))</td>
             <td>(( activity.date ))</td>
             <td class="td-full">(( activity.stripe_transaction_id )) / (( activity.referenceID ))</td>
-            <td class="td-status">(( activity.status ))</td>
             <td class="td-full">(( activity.merchant_name ))</td>
+            <td class="td-status">(( activity.status ))</td>
             <td class="td-hide">(( activity.stripe_authorization_id ))</td>
             <td class="td-full">(( activity.approved ))</td>
             <td>(( "${:,.2f}".format(activity.amount/100) ))</td>
@@ -379,29 +379,22 @@
           <span style="display:inline-block"> <b>Date:</b>
             <div id="modal-date" class="modal-title-line" style="display:inline-block"></div>
           </span><br>
-          <span style="display:inline-block"><b>Last 4 Digits:</b>
+          <span style="display:inline-block"><b>ID:</b>
             <div class="modal-title-line" id="modal-activity-id" style="display:inline-block"></div>
           </span><br>
           <span style="display:inline-block"><b>Transaction ID / Reference ID:</b>
             <div id="modal-transaction-id" style="display:inline-block"></div>
           </span><br>
-          <span style="display:inline-block"><b>Approved:</b>
-            <div id="modal-approved" style="display:inline-block"></div>
-          </span><br>
-          <span style="display:inline-block"><b>Activity type:</b>
-            <div id="modal-auth-id" style="display:inline-block">
-            </div>
-          </span><br>
           <span style="display:inline-block"><b>Status:</b>
             <div id="modal-status" style="display:inline-block"></div>
+          </span><br>
+          <span style="display:inline-block"><b>Approved:</b>
+            <div id="modal-approved" style="display:inline-block"></div>
           </span><br>
           <span style="display:inline-block"><b>Merchant:</b>
             <div id="modal-merchant-name" style="display:inline-block">
             </div>
           </span><br>
-          <span style="display:inline-block"><b>Approved:</b>
-            <div id="modal-approved" style="display:inline-block"></div>
-          </span><br><br>
           <span style="display:inline-block"><b>Note:</b>
             <div id="modal-note" style="display:inline-block;"></div>
           </span><br>
@@ -436,10 +429,9 @@
       }
       document.getElementById("modal-activity-id").innerHTML = cells[0].innerHTML;
       document.getElementById("modal-date").innerHTML = cells[1].innerHTML;
-      document.getElementById("modal-transaction-id").innerHTML = cells[5].innerHTML;
-      document.getElementById("modal-status").innerHTML = cells[2].innerHTML;
+      document.getElementById("modal-transaction-id").innerHTML = cells[2].innerHTML;
       document.getElementById("modal-merchant-name").innerHTML = cells[3].innerHTML;
-      document.getElementById("modal-auth-id").innerHTML = cells[4].innerHTML;
+      document.getElementById("modal-status").innerHTML = cells[4].innerHTML;
       document.getElementById("modal-approved").innerHTML = cells[5].innerHTML;
       document.getElementById("modal-amount").innerHTML = cells[6].innerHTML;
       document.getElementById("modal-balance").innerHTML = cells[7].innerHTML;
